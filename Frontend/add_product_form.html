@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramBazaar - Add Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-green: #1a5d1a;
+            --light-leaf: #e1f0e1;
+            --mustard: #d4af37;
+            --deep-brown: #3e2723;
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #ff9800;
+            --light: #f5f5dc;
+            --dark: #3e2723;
+            --gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7f0;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Navbar */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--mustard);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .language-switcher select option {
+            background: var(--deep-green);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn.login {
+            background: transparent;
+            border: 2px solid var(--mustard);
+            color: var(--mustard);
+        }
+        
+        .btn.login:hover {
+            background: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.signup {
+            background: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.signup:hover {
+            opacity: 0.9;
+        }
+        
+        /* Page Content */
+        .page-content {
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-leaf);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-title i {
+            color: var(--secondary);
+        }
+        
+        /* Add Product Form */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            padding: 20px 30px;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .form-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #dce7dc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8fdf8;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .file-upload {
+            border: 2px dashed #c8e6c9;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #f1f8e9;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(46, 125, 50, 0.05);
+        }
+        
+        .file-upload i {
+            font-size: 3rem;
+            color: #81c784;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .upload-hint {
+            color: #9e9e9e;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.4);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        /* Footer */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 80px;
+            position: relative;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="seller_dashboard.html" class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>GramBazaar</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="seller_dashboard.html">Dashboard</a>
+                <a href="add_product.html" class="active">Add Product</a>
+                <a href="seller_profile.html">Profile</a>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="btn login">Rajesh S.</button>
+                <button class="btn signup">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title"><i class="fas fa-plus-circle"></i> Add New Product</h1>
+            
+            <div class="form-container">
+                <div class="form-header">
+                    <i class="fas fa-plus-circle"></i> Product Information
+                </div>
+                <div class="form-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="product-name">Product Name</label>
+                            <input type="text" class="form-control" id="product-name" placeholder="Enter product name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="product-category">Category</label>
+                            <select class="form-control" id="product-category">
+                                <option value="">Select category</option>
+                                <option value="food">Food & Grains</option>
+                                <option value="handicraft">Handicrafts</option>
+                                <option value="pottery">Pottery</option>
+                                <option value="textile">Textiles</option>
+                                <option value="natural">Natural Products</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="product-description">Description</label>
+                        <textarea class="form-control" id="product-description" placeholder="Describe your product in detail"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="product-price">Price (₹)</label>
+                            <input type="number" class="form-control" id="product-price" placeholder="Enter price">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="product-stock">Stock Quantity</label>
+                            <input type="number" class="form-control" id="product-stock" placeholder="Enter quantity">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Product Images</label>
+                        <div class="file-upload" id="image-upload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <div class="upload-text">Click to upload or drag and drop</div>
+                            <div class="upload-hint">PNG, JPG up to 5MB</div>
+                            <input type="file" id="file-input" style="display: none;">
+                        </div>
+                        <div id="upload-status" style="display: none; margin-top: 20px;">
+                            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
+                                <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                                <span>Image uploaded successfully to Cloudinary!</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" id="save-product">
+                        <i class="fas fa-save"></i> Save Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-col">
+                    <a href="#" class="logo"><i class="fas fa-seedling"></i> GramBazaar</a>
+                    <p>Empowering rural communities through technology. Bringing farmers and buyers together.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="seller_dashboard.html">Dashboard</a></li>
+                        <li><a href="add_product.html">Add Product</a></li>
+                        <li><a href="seller_profile.html">Profile</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Farm Produce</a></li>
+                        <li><a href="#">Handicrafts</a></li>
+                        <li><a href="#">Dairy Products</a></li>
+                        <li><a href="#">Organic Foods</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Village Square, Rural India</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-envelope"></i> info@grambazaar.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Action completed successfully!</span>
+    </div>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Image Upload
+        document.getElementById('image-upload').addEventListener('click', function() {
+            document.getElementById('file-input').click();
+        });
+        
+        document.getElementById('file-input').addEventListener('change', function() {
+            if(this.files.length > 0) {
+                // Show uploading status
+                const uploadStatus = document.getElementById('upload-status');
+                uploadStatus.style.display = 'none';
+                
+                // Simulate upload to Cloudinary
+                setTimeout(() => {
+                    uploadStatus.style.display = 'block';
+                    showNotification('Image uploaded successfully to Cloudinary!');
+                }, 1500);
+            }
+        });
+        
+        // Save Product
+        document.getElementById('save-product').addEventListener('click', function() {
+            const productName = document.getElementById('product-name').value;
+            const category = document.getElementById('product-category').value;
+            
+            if(productName && category) {
+                // Show saving state
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Product Saved!';
+                    
+                    // Show notification
+                    showNotification('Product added successfully!');
+                    
+                    // Reset form after 2 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-save"></i> Save Product';
+                        btn.disabled = false;
+                        document.getElementById('product-name').value = '';
+                        document.getElementById('product-category').value = '';
+                        document.getElementById('product-description').value = '';
+                        document.getElementById('product-price').value = '';
+                        document.getElementById('product-stock').value = '';
+                        document.getElementById('file-input').value = '';
+                        document.getElementById('upload-status').style.display = 'none';
+                        
+                        // Navigate to dashboard
+                        window.location.href = "seller_dashboard.html";
+                    }, 2000);
+                }, 1500);
+            } else {
+                showNotification('Please fill in all required fields', 'error');
+            }
+        });
+        
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            
+            // Set notification color based on type
+            if (type === 'success') {
+                notification.style.background = '#4caf50';
+            } else if (type === 'error') {
+                notification.style.background = '#f44336';
+            }
+            
+            notification.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

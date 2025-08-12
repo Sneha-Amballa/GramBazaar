@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramBazaar - Authentication</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== COMMON STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-green: #465F16;
+            --light-leaf: #f1fbe8;
+            --mustard: #f5b041;
+            --dark-mustard: #e09e2f;
+            --dark-gray: #333333;
+            --light-gray: #888888;
+            --deep-brown: #6e4c1e;
+            --soft-blue: #6ca0dc;
+            --white: #ffffff;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark-gray);
+            background: linear-gradient(to bottom, #ffffff 0%, var(--light-leaf) 100%);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        
+        /* ===== NAVIGATION BAR ===== */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-leaf);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--mustard);
+            transition: var(--transition);
+        }
+        
+        .logo:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light-leaf);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .nav-links a:hover:after, 
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-leaf);
+            position: relative;
+        }
+        
+        .language-switcher i {
+            font-size: 1.1rem;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: var(--light-leaf);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            padding-right: 30px;
+            color: #e09e2f;
+        }
+        
+        .language-switcher select:hover {
+            border-color: var(--mustard);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn.login {
+            background: transparent;
+            color: var(--light-leaf);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn.signup {
+            background-color: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--mustard);
+        }
+        
+        .btn.signup:hover {
+            background-color: var(--dark-mustard);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(245, 176, 65, 0.3);
+        }
+        
+        /* ===== AUTHENTICATION PAGES ===== */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 60px 0;
+        }
+        
+        .auth-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            width: 100%;
+            max-width: 700px;
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .auth-header {
+            background: var(--deep-green);
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-header h2 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .auth-header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.15rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .auth-header:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .auth-body {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            font-size: 1rem;
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--deep-green);
+            font-size: 1.1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(241, 251, 232, 0.3);
+        }
+        
+        .form-control:focus {
+            border-color: var(--deep-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(70, 95, 22, 0.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--deep-green);
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+            color: var(--light-gray);
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--mustard);
+            color: var(--deep-green);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .auth-btn:hover {
+            background: var(--dark-mustard);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(245, 176, 65, 0.3);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: var(--light-gray);
+        }
+        
+        .divider:before,
+        .divider:after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .social-btn.google {
+            border-color: #dd4b39;
+            color: #dd4b39;
+        }
+        
+        .social-btn.facebook {
+            border-color: #3b5998;
+            color: #3b5998;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+            color: var(--light-gray);
+        }
+        
+        .auth-footer a {
+            color: var(--deep-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .auth-footer a:hover {
+            color: var(--mustard);
+            text-decoration: underline;
+        }
+        
+        .user-type {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .user-type-option {
+            flex: 1;
+            text-align: center;
+            padding: 22px 10px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .user-type-option.selected {
+            border-color: var(--deep-green);
+            background: rgba(241, 251, 232, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .user-type-option i {
+            font-size: 2.2rem;
+            color: var(--deep-green);
+            margin-bottom: 12px;
+        }
+        
+        .user-type-option h4 {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+        }
+        
+        /* ===== FOOTER ===== */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 40px;
+            position: relative;
+            margin-top: auto;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-leaf);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--mustard);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+        
+        /* ===== TOGGLE BETWEEN LOGIN/SIGNUP ===== */
+        .auth-toggle {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .auth-toggle-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: rgba(70, 95, 22, 0.1);
+            color: var(--deep-green);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .auth-toggle-btn.active {
+            background: var(--deep-green);
+            color: var(--white);
+        }
+        
+        .auth-toggle-btn:hover:not(.active) {
+            background: rgba(70, 95, 22, 0.2);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .auth-card {
+                max-width: 90%;
+            }
+            
+            .social-login {
+                flex-direction: column;
+            }
+            
+            .user-type {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .auth-header {
+                padding: 25px 20px;
+            }
+            
+            .auth-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .auth-body {
+                padding: 30px 20px;
+            }
+            
+            .auth-header p {
+                font-size: 1rem;
+            }
+            
+            .auth-toggle-btn {
+                padding: 10px 25px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Animation for form switching */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .auth-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="dashboard.html" class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>GramBazaar</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="dashboard.html">Home</a>
+                <a href="#">Contact</a>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="btn login" id="navLoginBtn">Login</button>
+                <button class="btn signup" id="navSignupBtn">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Pages Container -->
+    <div class="auth-container">
+        <div class="auth-toggle">
+            <button class="auth-toggle-btn active" id="loginBtn">Login</button>
+            <button class="auth-toggle-btn" id="signupBtn">Sign Up</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="auth-card" id="loginCard">
+            <div class="auth-header">
+                <h2>Welcome Back to GramBazaar</h2>
+                <p>Login to manage your account and connect with farmers</p>
+            </div>
+            
+            <div class="auth-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email or Phone</label>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="loginEmail" class="form-control" placeholder="Enter email or phone number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">Login to GramBazaar</button>
+                    
+                    <div class="divider">
+                        <span>Or continue with</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        <p>Forgot your password? <a href="#">Reset Password</a></p>
+                        <p>Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Sign Up Form -->
+        <div class="auth-card" id="signupCard" style="display: none;">
+            <div class="auth-header">
+                <h2>Join GramBazaar Community</h2>
+                <p>Create your account to connect directly with farmers</p>
+            </div>
+            
+            <div class="auth-body">
+                <form id="signupForm">
+                    <div class="user-type">
+                        <div class="user-type-option" id="farmerOption">
+                            <i class="fas fa-tractor"></i>
+                            <a href="seller_dashboard.html"><h4>Farmer/Artisan</h4></a>
+                        </div>
+                        <div class="user-type-option" id="buyerOption">
+                            <i class="fas fa-shopping-basket"></i>
+                            <a href="buyer_dashboard.html"><h4>Buyer</h4></a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">Create Account</button>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-col">
+                    <div class="logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>GramBazaar</span>
+                    </div>
+                    <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Become a Seller</a></li>
+                        <li><a href="#">Buyer Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Market Insights</a></li>
+                        <li><a href="#">Farmer Training</a></li>
+                        <li><a href="#">Download App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
+                    </ul>
+                    <div class="language-switcher">
+                        <i class="fas fa-globe"></i>
+                        <select>
+                            <option value="en">English</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Made with ❤️ by Team GramBazaar</p>
+                <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Toggle between login and signup
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const loginCard = document.getElementById('loginCard');
+        const signupCard = document.getElementById('signupCard');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const navLoginBtn = document.getElementById('navLoginBtn');
+        const navSignupBtn = document.getElementById('navSignupBtn');
+        
+        function showLogin() {
+            loginCard.style.display = 'block';
+            signupCard.style.display = 'none';
+            loginBtn.classList.add('active');
+            signupBtn.classList.remove('active');
+        }
+        
+        function showSignup() {
+            loginCard.style.display = 'none';
+            signupCard.style.display = 'block';
+            signupBtn.classList.add('active');
+            loginBtn.classList.remove('active');
+        }
+        
+        loginBtn.addEventListener('click', showLogin);
+        signupBtn.addEventListener('click', showSignup);
+        navLoginBtn.addEventListener('click', showLogin);
+        navSignupBtn.addEventListener('click', showSignup);
+        
+        switchToSignup.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSignup();
+        });
+        
+        switchToLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            showLogin();
+        });
+        
+        // User type selection
+        const farmerOption = document.getElementById('farmerOption');
+        const buyerOption = document.getElementById('buyerOption');
+        
+        farmerOption.addEventListener('click', function() {
+            farmerOption.classList.add('selected');
+            buyerOption.classList.remove('selected');
+        });
+        
+        buyerOption.addEventListener('click', function() {
+            buyerOption.classList.add('selected');
+            farmerOption.classList.remove('selected');
+        });
+        
+        // Form submission with validation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            if (email && password) {
+                alert('Login successful! Redirecting to your dashboard...');
+                // In a real application, you would make an API call here
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Password match validation
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Simple validation
+            if (fullName && email && phone && password) {
+                alert('Account created successfully! Welcome to GramBazaar.');
+                // In a real application, you would make an API call here
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        // Initialize farmer as selected
+        farmerOption.classList.add('selected');
+        
+        // Add hover effects to buttons
+        const buttons = document.querySelectorAll('.btn, .auth-btn, .social-btn, .auth-toggle-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.15)';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

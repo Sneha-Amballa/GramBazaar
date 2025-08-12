@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Dashboard | GramBazaar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep-green: #14532d;
+      --deep-brown: #6e4c1e;
+      --mustard: #facc15;
+      --light-leaf: #e6f4ea;
+      --transition: all 0.3s ease;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    body {
+      margin: 0;
+      background-color: #f1fbe8;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      color: var(--deep-green);
+    }
+
+    /* NAVBAR STYLES */
+    .navbar {
+      background-color: #2e7d32;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5%;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left {
+      flex: 1;
+    }
+
+    .nav-center {
+      flex: 2;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .nav-right {
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .nav-section a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 10px;
+      transition: var(--transition);
+      font-size: 1.05rem;
+      letter-spacing: 0.3px;
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .nav-section a:hover {
+      color: var(--mustard);
+    }
+
+    .nav-section a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s ease;
+    }
+
+    .nav-section a:hover:after {
+      width: 100%;
+    }
+
+    .nav-logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo i {
+      color: var(--mustard);
+      font-size: 1.4rem;
+    }
+
+    .language-switcher {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      position: relative;
+    }
+
+    .language-switcher i {
+      margin-right: 8px;
+      color: var(--mustard);
+      font-size: 1rem;
+    }
+
+    .language-switcher select {
+      background: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 30px 6px 12px;
+      font-weight: 500;
+      color: #2e7d32;
+      cursor: pointer;
+      appearance: none;
+      font-size: 0.95rem;
+    }
+
+    .language-switcher:after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #2e7d32;
+      font-size: 12px;
+    }
+
+    /* MAIN DASHBOARD SECTION */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 5%;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+      color: var(--deep-green);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    h2:after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 3px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .filters input,
+    .filters select {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 240px;
+      background-color: #fff;
+      font-size: 1rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      outline: none;
+      border-color: var(--mustard);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .product-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .product-card h4 {
+      margin: 15px 0 8px;
+      font-size: 1.2rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .product-card p {
+      color: #555;
+      font-size: 1rem;
+      margin: 0 0 15px;
+      font-weight: 500;
+    }
+
+    .add-to-cart {
+      background-color: var(--mustard);
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: auto;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .add-to-cart:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* FOOTER STYLES */
+    #footer {
+      background-color: var(--deep-brown);
+      color: var(--light-leaf);
+      padding-top: 80px;
+      margin-top: 80px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 50px;
+      padding: 0 5% 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-col h4 {
+      color: var(--mustard);
+      margin-bottom: 25px;
+      font-size: 1.4rem;
+      position: relative;
+      padding-bottom: 12px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .footer-col h4:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 15px;
+    }
+
+    .footer-col ul li a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      transition: var(--transition);
+      font-size: 1.05rem;
+      display: inline-block;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--mustard);
+      transform: translateX(5px);
+    }
+
+    .footer-col .logo {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
+    .footer-col .logo i {
+      color: var(--mustard);
+    }
+
+    .footer-col p {
+      margin-bottom: 25px;
+      max-width: 300px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-icons a {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+
+    .social-icons a:hover {
+      background-color: var(--mustard);
+      color: #333;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 30px 5%;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-bottom div {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .product-card {
+      animation: fadeIn 0.6s ease-out forwards;
+      animation-delay: calc(var(--order) * 0.1s);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1.2rem;
+      }
+      
+      .nav-section {
+        width: 100%;
+        justify-content: center;
+        margin: 8px 0;
+      }
+      
+      .nav-center {
+        order: 3;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      .dashboard-container {
+        padding: 40px 20px;
+      }
+      
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .filters input,
+      .filters select {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .product-list {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-section nav-left">
+    <div class="nav-logo"><i class="fas fa-seedling"></i> GramBazaar</div>
+  </div>
+
+  <div class="nav-section nav-center">
+    <a href="page2.html">Product details</a>
+    <a href="buyer_profile.html">My Profile</a>
+    <div class="language-switcher">
+      <i class="fas fa-globe"></i>
+      <select>
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="nav-section nav-right"></div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="dashboard-container">
+  <h2>Discover Nearby Products</h2>
+
+  <div class="filters">
+    <input type="text" placeholder="Search by name...">
+    <select>
+      <option>All Categories</option>
+      <option>Vegetables</option>
+      <option>Handicrafts</option>
+      <option>Grains</option>
+      <option>Dairy</option>
+    </select>
+    <select>
+      <option>Price Range</option>
+      <option>Below ₹100</option>
+      <option>₹100 - ₹500</option>
+      <option>₹500 - ₹1000</option>
+      <option>Above ₹1000</option>
+    </select>
+  </div>
+
+  <div class="product-list">
+    <div class="product-card" style="--order: 1">
+      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
+      <h4>Organic Tomatoes</h4>
+      <p>₹60/kg</p>
+      <button class="add-to-cart" onclick="addToCart('Organic Tomatoes', 60, 'kg')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 2">
+      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
+      <h4>Handmade Clay Pots</h4>
+      <p>₹250</p>
+      <button class="add-to-cart" onclick="addToCart('Handmade Clay Pots', 250, '')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 3">
+      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
+      <h4>Terracotta Vase</h4>
+      <p>₹350</p>
+      <button class="add-to-cart" onclick="addToCart('Terracotta Vase', 350, '')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 4">
+      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
+      <h4>Water Storage Pot</h4>
+      <p>₹450</p>
+      <button class="add-to-cart" onclick="addToCart('Water Storage Pot', 450, '')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 5">
+      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
+      <h4>Organic Brinjal</h4>
+      <p>₹45/kg</p>
+      <button class="add-to-cart" onclick="addToCart('Organic Brinjal', 45, 'kg')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 6">
+      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
+      <h4>Fresh Cucumber</h4>
+      <p>₹30/kg</p>
+      <button class="add-to-cart" onclick="addToCart('Fresh Cucumber', 30, 'kg')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+    <div class="product-card" style="--order: 7">
+      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
+      <h4>Farm Fresh Carrots</h4>
+      <p>₹55/kg</p>
+      <button class="add-to-cart" onclick="addToCart('Farm Fresh Carrots', 55, 'kg')">
+        <i class="fas fa-cart-plus"></i> Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div class="logo"><i class="fas fa-seedling"></i> GramBazaar</div>
+        <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Become a Seller</a></li>
+          <li><a href="#">Buyer Guide</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Success Stories</a></li>
+          <li><a href="#">Market Insights</a></li>
+          <li><a href="#">Farmer Training</a></li>
+          <li><a href="#">Download App</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
+          <li><i class="fas fa-phone"></i> +91 9876543210</li>
+          <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
+        </ul>
+        <div class="language-switcher">
+          <i class="fas fa-globe"></i>
+          <select>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="ta">தமிழ்</option>
+            <option value="te">తెలుగు</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2025 GramBazaar | Built with ❤ for rural India</div>
+      <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function addToCart(name, price, unit) {
+    // Create a notification element
+    const notification = document.createElement('div');
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = '#4BB543';
+    notification.style.color = 'white';
+    notification.style.padding = '15px 25px';
+    notification.style.borderRadius = '8px';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+    notification.style.zIndex = '1000';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.gap = '10px';
+    notification.style.animation = 'fadeIn 0.3s ease-out';
+    notification.innerHTML = `
+      <i class="fas fa-check-circle"></i>
+      <span>Added ${name} (₹${price}${unit ? '/'+unit : ''}) to cart</span>
+    `;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      notification.style.animation = 'fadeOut 0.3s ease-out';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 300);
+    }, 3000);
+    
+    console.log(`Added to cart: ${name}, Price: ₹${price}${unit ? '/' + unit : ''}`);
+  }
+
+  // Add fadeOut animation
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramBazaar - Seller Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-green: #1a5d1a;
+            --light-leaf: #e1f0e1;
+            --mustard: #d4af37;
+            --deep-brown: #3e2723;
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #ff9800;
+            --light: #f5f5dc;
+            --dark: #3e2723;
+            --gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7f0;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Navbar */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--mustard);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .language-switcher select option {
+            background: var(--deep-green);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn.login {
+            background: transparent;
+            border: 2px solid var(--mustard);
+            color: var(--mustard);
+        }
+        
+        .btn.login:hover {
+            background: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.signup {
+            background: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.signup:hover {
+            opacity: 0.9;
+        }
+        
+        /* Page Content */
+        .page-content {
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-leaf);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-title i {
+            color: var(--secondary);
+        }
+        
+        /* Profile Page */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .profile-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .profile-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-role {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 25px 0;
+        }
+        
+        .stat-box {
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .language-selector {
+            margin-top: 20px;
+        }
+        
+        .language-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .language-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dce7dc;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8fdf8;
+            transition: var(--transition);
+        }
+        
+        .language-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+            outline: none;
+        }
+        
+        .profile-info-form {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background: var(--light-leaf);
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .info-form-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #dce7dc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8fdf8;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .location-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: var(--gray);
+        }
+        
+        .location-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 80px;
+            position: relative;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                grid-template-columns: 1fr;
+                max-width: 250px;
+                margin: 25px auto;
+            }
+            
+            .auth-buttons {
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="seller_dashboard.html" class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>GramBazaar</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="seller_dashboard.html">Dashboard</a>
+                <a href="add_product.html">Add Product</a>
+                <a href="seller_profile.html" class="active">Profile</a>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="btn login">Rajesh S.</button>
+                <button class="btn signup">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title"><i class="fas fa-user"></i> Your Profile</h1>
+            
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        RS
+                    </div>
+                    <h2 class="profile-name">Rajesh Sharma</h2>
+                    <div class="profile-role">Seller since June 2024</div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Products</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">48</div>
+                            <div class="stat-label">Orders</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">4.7</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    
+                    <div class="language-selector">
+                        <label class="language-label">Preferred Language</label>
+                        <select class="language-select" id="profile-language">
+                            <option value="en">English</option>
+                            <option value="hi" selected>Hindi</option>
+                            <option value="ta">Tamil</option>
+                            <option value="te">Telugu</option>
+                            <option value="kn">Kannada</option>
+                            <option value="ml">Malayalam</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="profile-info-form">
+                    <div class="form-header">
+                        <i class="fas fa-user-edit"></i> Account Information
+                    </div>
+                    <div class="info-form-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="full-name">Full Name</label>
+                                <input type="text" class="form-control" id="full-name" value="Rajesh Sharma">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" class="form-control" id="email" value="rajesh@example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone</label>
+                            <input type="tel" class="form-control" id="phone" value="+91 9876543210">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="location">Location</label>
+                            <input type="text" class="form-control" id="location" value="Village Sundarpur, Rajasthan">
+                            <div class="location-row">
+                                <i class="fas fa-map-marker-alt location-icon"></i>
+                                <span>Rajasthan, India</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="bio">Bio</label>
+                            <textarea class="form-control" id="bio" placeholder="Tell buyers about yourself">Fourth-generation farmer specializing in organic produce. Passionate about sustainable farming and preserving traditional agricultural practices.</textarea>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="save-profile">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-col">
+                    <a href="#" class="logo"><i class="fas fa-seedling"></i> GramBazaar</a>
+                    <p>Empowering rural communities through technology. Bringing farmers and buyers together.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="seller_dashboard.html">Dashboard</a></li>
+                        <li><a href="add_product.html">Add Product</a></li>
+                        <li><a href="seller_profile.html">Profile</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Farm Produce</a></li>
+                        <li><a href="#">Handicrafts</a></li>
+                        <li><a href="#">Dairy Products</a></li>
+                        <li><a href="#">Organic Foods</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Village Square, Rural India</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-envelope"></i> info@grambazaar.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Action completed successfully!</span>
+    </div>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+        
+        // Save Profile
+        document.getElementById('save-profile').addEventListener('click', function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Profile Updated!';
+                showNotification('Profile updated successfully!');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Language Selector
+        document.getElementById('profile-language').addEventListener('change', function() {
+            const lang = this.options[this.selectedIndex].text;
+            showNotification(`Language changed to: ${lang}`);
+        });
+        
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            
+            // Set notification color based on type
+            if (type === 'success') {
+                notification.style.background = '#4caf50';
+            } else if (type === 'error') {
+                notification.style.background = '#f44336';
+            }
+            
+            notification.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | GramBazaar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep-green: #14532d;
+      --deep-brown: #6e4c1e;
+      --mustard: #facc15;
+      --light-leaf: #e6f4ea;
+      --transition: all 0.3s ease;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 8px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --light-bg: #f8fbf3;
+      --card-radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      color: var(--deep-green);
+    }
+
+    /* NAVBAR STYLES */
+    .navbar {
+      background-color: #465F16;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5%;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left {
+      flex: 1;
+    }
+
+    .nav-center {
+      flex: 2;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .nav-right {
+      flex: 1;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    .nav-section a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 10px;
+      transition: var(--transition);
+      font-size: 1.05rem;
+      letter-spacing: 0.3px;
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .nav-section a:hover {
+      color: var(--mustard);
+    }
+
+    .nav-section a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s ease;
+    }
+
+    .nav-section a:hover:after {
+      width: 100%;
+    }
+
+    .nav-logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo i {
+      color: var(--mustard);
+      font-size: 1.4rem;
+    }
+
+    .language-switcher {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      position: relative;
+    }
+
+    .language-switcher i {
+      margin-right: 8px;
+      color: var(--mustard);
+      font-size: 1rem;
+    }
+
+    .language-switcher select {
+      background: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 30px 6px 12px;
+      font-weight: 500;
+      color: #2e7d32;
+      cursor: pointer;
+      appearance: none;
+      font-size: 0.95rem;
+    }
+
+    .language-switcher:after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #2e7d32;
+      font-size: 12px;
+    }
+
+    /* CART BUTTON */
+    .cart-btn {
+      background-color: var(--mustard);
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .cart-btn:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+
+    /* CART DROPDOWN */
+    .cart-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 5%;
+      width: 350px;
+      background-color: white;
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-lg);
+      padding: 20px;
+      z-index: 1000;
+      display: none;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cart-dropdown.show {
+      display: block;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-header h4 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #777;
+      transition: var(--transition);
+    }
+
+    .close-cart:hover {
+      color: var(--deep-green);
+      transform: rotate(90deg);
+    }
+
+    .cart-items {
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+      transition: var(--transition);
+    }
+
+    .cart-item:hover {
+      background-color: var(--light-leaf);
+      border-radius: 6px;
+      padding: 10px;
+    }
+
+    .cart-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .cart-item-price {
+      color: var(--deep-green);
+      font-weight: 500;
+    }
+
+    .cart-item-remove {
+      color: #e74c3c;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+
+    .cart-item-remove:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 25px 0 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cart-btn-primary {
+      background-color: var(--mustard);
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      flex: 1;
+      text-align: center;
+    }
+
+    .cart-btn-primary:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+    }
+
+    /* PROFILE SECTION */
+    .profile-container {
+      max-width: 1500px;
+      margin: 50px auto;
+      padding: 0 5%;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+      flex: 1;
+    }
+
+    .profile-sidebar {
+      background-color: white;
+      border-radius: var(--card-radius);
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      height: fit-content;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      display: block;
+      border: 3px solid var(--mustard);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-name {
+      text-align: center;
+      margin-bottom: 5px;
+      font-size: 1.5rem;
+    }
+
+    .profile-role {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .profile-role:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 2px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .profile-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .profile-menu li {
+      margin-bottom: 10px;
+    }
+
+    .profile-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #555;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .profile-menu a:hover, .profile-menu a.active {
+      background-color: var(--light-leaf);
+      color: var(--deep-green);
+      transform: translateX(5px);
+    }
+
+    .profile-menu a i {
+      width: 20px;
+      text-align: center;
+      color: var(--deep-green);
+      opacity: 0.7;
+    }
+
+    .profile-menu a:hover i, .profile-menu a.active i {
+      opacity: 1;
+      color: var(--deep-green);
+    }
+
+    .profile-content {
+      background-color: white;
+      border-radius: var(--card-radius);
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .profile-section {
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .profile-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .profile-section h3 {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-section h3 i {
+      color: var(--mustard);
+      font-size: 1.2rem;
+    }
+
+    .profile-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .detail-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(230, 244, 234, 0.3);
+      transition: var(--transition);
+    }
+
+    .detail-item:hover {
+      background-color: rgba(230, 244, 234, 0.5);
+      transform: translateY(-3px);
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: #777;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .detail-value {
+      font-weight: 500;
+      font-size: 1.05rem;
+    }
+
+    .edit-btn {
+      background-color: var(--mustard);
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .edit-btn:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* FOOTER STYLES */
+    #footer {
+      background-color: var(--deep-brown);
+      color: var(--light-leaf);
+      padding-top: 80px;
+      margin-top: 80px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 50px;
+      padding: 0 5% 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-col h4 {
+      color: var(--mustard);
+      margin-bottom: 25px;
+      font-size: 1.4rem;
+      position: relative;
+      padding-bottom: 12px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .footer-col h4:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background: var(--mustard);
+      bottom: 0;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      transition: var(--transition);
+      font-size: 1.05rem;
+      display: inline-block;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--mustard);
+      transform: translateX(5px);
+    }
+
+    .footer-col .logo {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
+    .footer-col .logo i {
+      color: var(--mustard);
+    }
+
+    .footer-col p {
+      margin-bottom: 25px;
+      max-width: 300px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-icons a {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+
+    .social-icons a:hover {
+      background-color: var(--mustard);
+      color: #333;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 30px 5%;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-bottom div {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .profile-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .profile-sidebar {
+        text-align: center;
+      }
+      
+      .profile-menu {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1.2rem;
+      }
+      
+      .nav-section {
+        width: 100%;
+        justify-content: center;
+        margin: 8px 0;
+      }
+      
+      .nav-center {
+        order: 3;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      .profile-details {
+        grid-template-columns: 1fr;
+      }
+      
+      .cart-dropdown {
+        width: 280px;
+        right: 20px;
+      }
+      
+      .footer-top {
+        gap: 30px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .nav-center {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .profile-section h3 {
+        font-size: 1.3rem;
+      }
+      
+      .edit-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-section nav-left">
+    <div class="nav-logo"><i class="fas fa-seedling"></i> GramBazaar</div>
+  </div>
+
+  <div class="nav-section nav-center">
+    <a href="page2.html">Products</a>
+    <a href="buyer_profile.html" class="active">My Profile</a>
+    <div class="language-switcher">
+      <i class="fas fa-globe"></i>
+      <select>
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="nav-section nav-right">
+    <button class="cart-btn" id="cartButton">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Cart</span>
+      <span class="cart-count" id="cartCount">3</span>
+    </button>
+  </div>
+</nav>
+
+<!-- CART DROPDOWN -->
+<div class="cart-dropdown" id="cartDropdown">
+  <div class="cart-header">
+    <h4>Your Cart</h4>
+    <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-item">
+      <img src="Brinjal_JacChua (2).jpg" alt="Organic Tomatoes">
+      <div class="cart-item-details">
+        <div class="cart-item-title">Organic Tomatoes</div>
+        <div class="cart-item-price">₹60/kg × 2</div>
+      </div>
+      <button class="cart-item-remove"><i class="fas fa-trash"></i></button>
+    </div>
+    <div class="cart-item">
+      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
+      <div class="cart-item-details">
+        <div class="cart-item-title">Handmade Clay Pots</div>
+        <div class="cart-item-price">₹250 × 1</div>
+      </div>
+      <button class="cart-item-remove"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>
+  <div class="cart-total">
+    <span>Total:</span>
+    <span>₹370</span>
+  </div>
+  <div class="cart-actions">
+    <button class="cart-btn-primary">View Cart</button>
+    <button class="cart-btn-primary">Checkout</button>
+  </div>
+</div>
+
+<!-- PROFILE CONTENT -->
+<div class="profile-container">
+  <div class="profile-sidebar">
+    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Profile" class="profile-avatar">
+    <h3 class="profile-name">Priya Sharma</h3>
+    <p class="profile-role">Premium Buyer</p>
+    
+    <ul class="profile-menu">
+      <li><a href="#" class="active"><i class="fas fa-user"></i> Profile</a></li>
+      <li><a href="#"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+      <li><a href="#"><i class="fas fa-heart"></i> Wishlist</a></li>
+      <li><a href="#"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+  
+  <div class="profile-content">
+    <div class="profile-section">
+      <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+      <div class="profile-details">
+        <div class="detail-item">
+          <div class="detail-label">Full Name</div>
+          <div class="detail-value">Priya Sharma</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">priya.sharma@example.com</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value">+91 9876543210</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Date of Birth</div>
+          <div class="detail-value">15 June 1990</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Gender</div>
+          <div class="detail-value">Female</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Member Since</div>
+          <div class="detail-value">Jan 2023</div>
+        </div>
+      </div>
+      <button class="edit-btn"><i class="fas fa-edit"></i> Edit Profile</button>
+    </div>
+    
+    <div class="profile-section">
+      <h3><i class="fas fa-map-marker-alt"></i> Shipping Address</h3>
+      <div class="profile-details">
+        <div class="detail-item">
+          <div class="detail-label">Primary Address</div>
+          <div class="detail-value">123 Green Park, Hyderabad, Telangana 500016</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Pincode</div>
+          <div class="detail-value">500016</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Delivery Instructions</div>
+          <div class="detail-value">Leave at front door if not home</div>
+        </div>
+      </div>
+      <button class="edit-btn"><i class="fas fa-edit"></i> Edit Address</button>
+    </div>
+    
+    <div class="profile-section">
+      <h3><i class="fas fa-cog"></i> Account Settings</h3>
+      <div class="profile-details">
+        <div class="detail-item">
+          <div class="detail-label">Password</div>
+          <div class="detail-value">••••••••</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Notifications</div>
+          <div class="detail-value">Enabled</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Communication Preferences</div>
+          <div class="detail-value">Email & SMS</div>
+        </div>
+      </div>
+      <button class="edit-btn"><i class="fas fa-edit"></i> Change Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div class="logo"><i class="fas fa-seedling"></i> GramBazaar</div>
+        <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Become a Seller</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Buyer Guide</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Success Stories</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Farmer Training</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Download App</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
+          <li><i class="fas fa-phone"></i> +91 9876543210</li>
+          <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
+        </ul>
+        <div class="language-switcher">
+          <i class="fas fa-globe"></i>
+          <select>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="ta">தமிழ்</option>
+            <option value="te">తెలుగు</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2025 GramBazaar | Built with ❤ for rural India</div>
+      <p>Privacy Policy | Terms of Service</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cart functionality
+  const cartButton = document.getElementById('cartButton');
+  const cartDropdown = document.getElementById('cartDropdown');
+  const closeCart = document.getElementById('closeCart');
+  
+  cartButton.addEventListener('click', function(e) {
+    e.stopPropagation();
+    cartDropdown.classList.toggle('show');
+  });
+  
+  closeCart.addEventListener('click', function() {
+    cartDropdown.classList.remove('show');
+  });
+  
+  // Close cart when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!cartDropdown.contains(e.target) && e.target !== cartButton) {
+      cartDropdown.classList.remove('show');
+    }
+  });
+  
+  // Sample cart items data
+  const cartItems = [
+    {
+      id: 1,
+      name: "Organic Tomatoes",
+      price: 60,
+      quantity: 2,
+      unit: "kg",
+      image: "Brinjal_JacChua (2).jpg"
+    },
+    {
+      id: 2,
+      name: "Handmade Clay Pots",
+      price: 250,
+      quantity: 1,
+      unit: "",
+      image: "traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp"
+    }
+  ];
+  
+  // Function to update cart count
+  function updateCartCount() {
+    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+    document.getElementById('cartCount').textContent = totalItems;
+  }
+  
+  // Initialize
+  updateCartCount();
+</script>
+
+</body>
+</html>
