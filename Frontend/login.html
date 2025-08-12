@@ -633,235 +633,236 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav id="navbar">
-        <div class="container">
-            <a href="dashboard.html" class="logo">
-                <i class="fas fa-seedling"></i>
-                <span>GramBazaar</span>
-            </a>
+<nav id="navbar">
+    <div class="container">
+        <a href="dashboard.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span data-key="mainHeading">GramBazaar</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="dashboard.html" data-key="navHome">Home</a>
+            <a href="#" data-key="navContact">Contact</a>
+            <div class="language-switcher">
+                <i class="fas fa-globe"></i>
+                <select id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="te">తెలుగు</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="auth-buttons">
+            <button class="btn login" id="navLoginBtn" data-key="loginbtn">Login</button>
+            <button class="btn signup" id="navSignupBtn" data-key="signupbtn">Sign Up</button>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Auth Pages Container -->
+<div class="auth-container">
+    <div class="auth-toggle">
+        <button class="auth-toggle-btn active" id="loginBtn" data-key="loginbtn">Login</button>
+        <button class="auth-toggle-btn" id="signupBtn" data-key="signupbtn">Sign Up</button>
+    </div>
+    
+    <!-- Login Form -->
+    <div class="auth-card" id="loginCard">
+        <div class="auth-header">
+            <h2 data-key="loginHeading">Welcome Back to GramBazaar</h2>
+            <p data-key="loginSubheading">Login to manage your account and connect with farmers</p>
+        </div>
+        
+        <div class="auth-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail" data-key="loginEmailLabel">Email or Phone</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="loginEmail" class="form-control" placeholder="Enter email or phone number" data-key="loginEmailPlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword" data-key="loginPasswordLabel">Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" data-key="loginPasswordPlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe" data-key="rememberMe">Remember me</label>
+                </div>
+                
+                <button type="submit" class="auth-btn" data-key="loginSubmitBtn">Login to GramBazaar</button>
+                
+                <div class="divider">
+                    <span data-key="orContinueWith">Or continue with</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn google">
+                        <i class="fab fa-google"></i> <span data-key="googleBtn">Google</span>
+                    </button>
+                    <button type="button" class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i> <span data-key="facebookBtn">Facebook</span>
+                    </button>
+                </div>
+                
+                <div class="auth-footer">
+                    <p data-key="forgotPasswordText">Forgot your password? <a href="#" data-key="resetPasswordLink">Reset Password</a></p>
+                    <p data-key="noAccountText">Don't have an account? <a href="#" id="switchToSignup" data-key="signupLink">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Sign Up Form -->
+    <div class="auth-card" id="signupCard" style="display: none;">
+        <div class="auth-header">
+            <h2 data-key="signupHeading">Join GramBazaar Community</h2>
+            <p data-key="signupSubheading">Create your account to connect directly with farmers</p>
+        </div>
+        
+        <div class="auth-body">
+            <form id="signupForm">
+                <div class="user-type">
+                    <div class="user-type-option" id="farmerOption">
+                        <i class="fas fa-tractor"></i>
+                        <a href="seller_dashboard.html"><h4 data-key="farmerOption">Farmer/Artisan</h4></a>
+                    </div>
+                    <div class="user-type-option" id="buyerOption">
+                        <i class="fas fa-shopping-basket"></i>
+                        <a href="buyer_dashboard.html"><h4 data-key="buyerOption">Buyer</h4></a>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullName" data-key="fullNameLabel">Full Name</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" data-key="fullNamePlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" data-key="emailLabel">Email Address</label>
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" data-key="emailPlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" data-key="phoneLabel">Phone Number</label>
+                    <div class="input-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" data-key="phonePlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-key="passwordLabel">Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Create a password" data-key="passwordPlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword" data-key="confirmPasswordLabel">Confirm Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" data-key="confirmPasswordPlaceholder" required>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms" data-key="termsText">I agree to the <a href="#" data-key="termsLink">Terms of Service</a> and <a href="#" data-key="privacyLink">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="auth-btn" data-key="signupSubmitBtn">Create Account</button>
+                
+                <div class="auth-footer">
+                    <p data-key="alreadyHaveAccountText">Already have an account? <a href="#" id="switchToLogin" data-key="loginLink">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-col">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span data-key="footerLogo">GramBazaar</span>
+                </div>
+                <p data-key="footerDescription">Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
             
-            <div class="nav-links">
-                <a href="dashboard.html">Home</a>
-                <a href="#">Contact</a>
+            <div class="footer-col">
+                <h4 data-key="footerQuickLinks">Quick Links</h4>
+                <ul>
+                    <li><a href="#" data-key="footerAboutUs">About Us</a></li>
+                    <li><a href="#" data-key="footerHowItWorks">How It Works</a></li>
+                    <li><a href="#" data-key="footerBecomeSeller">Become a Seller</a></li>
+                    <li><a href="#" data-key="footerBuyerGuide">Buyer Guide</a></li>
+                    <li><a href="#" data-key="footerFAQs">FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerResources">Resources</h4>
+                <ul>
+                    <li><a href="#" data-key="footerBlog">Blog</a></li>
+                    <li><a href="#" data-key="footerSuccessStories">Success Stories</a></li>
+                    <li><a href="#" data-key="footerMarketInsights">Market Insights</a></li>
+                    <li><a href="#" data-key="footerFarmerTraining">Farmer Training</a></li>
+                    <li><a href="#" data-key="footerDownloadApp">Download App</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerContactUs">Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span data-key="footerAddress">Rural Tech Park, Hyderabad</span></li>
+                    <li><i class="fas fa-phone"></i> <span data-key="footerPhone">+91 9876543210</span></li>
+                    <li><i class="fas fa-envelope"></i> <span data-key="footerEmail">support@grambazaar.com</span></li>
+                </ul>
                 <div class="language-switcher">
                     <i class="fas fa-globe"></i>
                     <select>
-                        <option value="en">English</option>
-                        <option value="hi">हिन्दी</option>
-                        <option value="ta">தமிழ்</option>
-                        <option value="te">తెలుగు</option>
+                        <option value="en" data-key="langEnglish">English</option>
+                        <option value="hi" data-key="langHindi">हिन्दी</option>
+                        <option value="te" data-key="langTelugu">తెలుగు</option>
                     </select>
                 </div>
             </div>
-            
-            <div class="auth-buttons">
-                <button class="btn login" id="navLoginBtn">Login</button>
-                <button class="btn signup" id="navSignupBtn">Sign Up</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Auth Pages Container -->
-    <div class="auth-container">
-        <div class="auth-toggle">
-            <button class="auth-toggle-btn active" id="loginBtn">Login</button>
-            <button class="auth-toggle-btn" id="signupBtn">Sign Up</button>
         </div>
         
-        <!-- Login Form -->
-        <div class="auth-card" id="loginCard">
-            <div class="auth-header">
-                <h2>Welcome Back to GramBazaar</h2>
-                <p>Login to manage your account and connect with farmers</p>
-            </div>
-            
-            <div class="auth-body">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="loginEmail">Email or Phone</label>
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="loginEmail" class="form-control" placeholder="Enter email or phone number" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
-                        </div>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
-                    
-                    <button type="submit" class="auth-btn">Login to GramBazaar</button>
-                    
-                    <div class="divider">
-                        <span>Or continue with</span>
-                    </div>
-                    
-                    <div class="social-login">
-                        <button type="button" class="social-btn google">
-                            <i class="fab fa-google"></i> Google
-                        </button>
-                        <button type="button" class="social-btn facebook">
-                            <i class="fab fa-facebook-f"></i> Facebook
-                        </button>
-                    </div>
-                    
-                    <div class="auth-footer">
-                        <p>Forgot your password? <a href="#">Reset Password</a></p>
-                        <p>Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Sign Up Form -->
-        <div class="auth-card" id="signupCard" style="display: none;">
-            <div class="auth-header">
-                <h2>Join GramBazaar Community</h2>
-                <p>Create your account to connect directly with farmers</p>
-            </div>
-            
-            <div class="auth-body">
-                <form id="signupForm">
-                    <div class="user-type">
-                        <div class="user-type-option" id="farmerOption">
-                            <i class="fas fa-tractor"></i>
-                            <a href="seller_dashboard.html"><h4>Farmer/Artisan</h4></a>
-                        </div>
-                        <div class="user-type-option" id="buyerOption">
-                            <i class="fas fa-shopping-basket"></i>
-                            <a href="buyer_dashboard.html"><h4>Buyer</h4></a>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <div class="input-icon">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <div class="input-icon">
-                            <i class="fas fa-phone"></i>
-                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="password" class="form-control" placeholder="Create a password" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
-                        </div>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="terms" required>
-                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-                    </div>
-                    
-                    <button type="submit" class="auth-btn">Create Account</button>
-                    
-                    <div class="auth-footer">
-                        <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
-                    </div>
-                </form>
-            </div>
+        <div class="footer-bottom">
+            <p data-key="footerMadeWith">Made with ❤️ by Team GramBazaar</p>
+            <p data-key="footerRights">&copy; 2025 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-col">
-                    <div class="logo">
-                        <i class="fas fa-seedling"></i>
-                        <span>GramBazaar</span>
-                    </div>
-                    <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Become a Seller</a></li>
-                        <li><a href="#">Buyer Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Success Stories</a></li>
-                        <li><a href="#">Market Insights</a></li>
-                        <li><a href="#">Farmer Training</a></li>
-                        <li><a href="#">Download App</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Contact Us</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
-                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
-                        <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
-                    </ul>
-                    <div class="language-switcher">
-                        <i class="fas fa-globe"></i>
-                        <select>
-                            <option value="en">English</option>
-                            <option value="hi">हिन्दी</option>
-                            <option value="ta">தமிழ்</option>
-                            <option value="te">తెలుగు</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>Made with ❤️ by Team GramBazaar</p>
-                <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
-            </div>
-        </div>
-    </footer>
-
+</footer>
+    <script src="dashboard_translations.js"></script>
+    <script src="login_translations.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -976,12 +977,28 @@
                     this.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.15)';
                 }
             });
-            
+
             button.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
                 this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
             });
         });
+            const combinedTranslations = {
+                en: { ...dashboardTranslations.en, ...loginTranslations.en },
+                hi: { ...dashboardTranslations.hi, ...loginTranslations.hi },
+                te: { ...dashboardTranslations.te, ...loginTranslations.te }
+            };
+        document.getElementById("languageSelect").addEventListener("change", function() {
+            const lang = this.value;
+            localStorage.setItem("lang", lang);
+            document.querySelectorAll("[data-key]").forEach(el => {
+                const key = el.getAttribute("data-key");
+                if (combinedTranslations[lang] && combinedTranslations[lang][key]) {
+                    el.innerHTML = combinedTranslations[lang][key];
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

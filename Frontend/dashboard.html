@@ -772,8 +772,8 @@
             </div>
             
             <div class="auth-buttons">
-                <a href="login.html"><button class="btn login">Login</button></a>
-                <a href="login.html"><button class="btn signup">Sign Up</button></a>
+                <a href="login.html"><button class="btn login" data-key="loginbtn">Login</button></a>
+                <a href="login.html" ><button class="btn signup" data-key="signupbtn">Sign Up</button></a>
             </div>
         </div>
     </nav>
@@ -785,8 +785,8 @@
                 <h1 data-key="welcomeMsg">Connecting <span>Farmers Directly</span> to Buyers</h1>
                 <p data-key="description">A local-language marketplace empowering rural producers and artisans to sell directly to consumers, eliminating middlemen and increasing profits.</p>
                 <div class="cta-buttons">
-                    <button class="btn seller">Join as Seller</button>
-                    <button class="btn explore">Explore Products</button>
+                    <button class="btn seller" data-key="joinbtn">Join as Seller</button>
+                    <button class="btn explore" data-key="explorebtn">Explore Products</button>
                 </div>
             </div>
             <div class="hero-image">
@@ -796,201 +796,205 @@
         
         <div class="stats-container">
             <div class="stat-item">
-                <div class="stat-number">25,000+</div>
-                <div class="stat-label">Active Farmers</div>
+                <div class="stat-number" data-key="activeFarmersNum">25,000+</div>
+                <div class="stat-label" data-key="activeFarmersLabel">Active Farmers</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">120,000+</div>
-                <div class="stat-label">Monthly Transactions</div>
+                <div class="stat-number" data-key="monthlyTransactionsNum">120,000+</div>
+                <div class="stat-label" data-key="monthlyTransactionsLabel">Monthly Transactions</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">18+</div>
-                <div class="stat-label">Local Languages</div>
+                <div class="stat-number" data-key="localLanguagesNum">3</div>
+                <div class="stat-label" data-key="localLanguagesLabel">Local Languages</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">96%</div>
-                <div class="stat-label">Satisfied Users</div>
+                <div class="stat-number" data-key="satisfiedUsersNum">96%</div>
+                <div class="stat-label" data-key="satisfiedUsersLabel">Satisfied Users</div>
             </div>
         </div>
+
     </section>
 
     <!-- Benefits Section -->
-    <section id="benefits">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why GramBazaar Works</h2>
-                <p>Empowering rural communities through technology</p>
+     <section id="benefits">
+    <div class="container">
+        <div class="section-title">
+            <h2 data-key="benefitsTitle">Why GramBazaar Works</h2>
+            <p data-key="benefitsSubtitle">Empowering rural communities through technology</p>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 data-key="benefit1Title">For Farmers & Artisans</h3>
+                <p data-key="benefit1Desc">Sell directly to nearby buyers, earn better profits without middlemen, and gain access to a larger market.</p>
             </div>
             
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <h3>For Farmers & Artisans</h3>
-                    <p>Sell directly to nearby buyers, earn better profits without middlemen, and gain access to a larger market.</p>
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-language"></i>
                 </div>
-                
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3>Local Language Support</h3>
-                    <p>Use the platform in your mother tongue for easy access and understanding, making technology accessible to all.</p>
+                <h3 data-key="benefit2Title">Local Language Support</h3>
+                <p data-key="benefit2Desc">Use the platform in your mother tongue for easy access and understanding, making technology accessible to all.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-money-bill-wave"></i>
                 </div>
-                
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Instant UPI Payments</h3>
-                    <p>Secure & fast transactions via Google Pay, PhonePe, and other UPI apps, ensuring timely payments.</p>
-                </div>
+                <h3 data-key="benefit3Title">Instant UPI Payments</h3>
+                <p data-key="benefit3Desc">Secure & fast transactions via Google Pay, PhonePe, and other UPI apps, ensuring timely payments.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Testimonials -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>What Our Users Say</h2>
-                <p>Real stories from our community</p>
+<section id="testimonials">
+    <div class="container">
+        <div class="section-title">
+            <h2 data-key="testimonialsTitle">What Our Users Say</h2>
+            <p data-key="testimonialsSubtitle">Real stories from our community</p>
+        </div>
+        
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <div class="quote">
+                    <p data-key="testimonial1Quote">GramBazaar helped me sell my organic vegetables directly to customers. My income has increased by 40% and I no longer depend on middlemen.</p>
+                </div>
+                <div class="user">
+                    <div class="user-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80" alt="Rajesh Kumar">
+                    </div>
+                    <div class="user-info">
+                        <p data-key="testimonial1Name">Rajesh Kumar</p>
+                        <span data-key="testimonial1Location">Farmer, Bihar</span>
+                        <div class="role-tag farmer-tag" data-key="testimonial1Role">Farmer</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="testimonials-container">
-                <div class="testimonial">
-                    <div class="quote">
-                        <p>GramBazaar helped me sell my organic vegetables directly to customers. My income has increased by 40% and I no longer depend on middlemen.</p>
+            <div class="testimonial">
+                <div class="quote">
+                    <p data-key="testimonial2Quote">As a buyer, I get fresh produce directly from farms at reasonable prices. The quality is exceptional compared to supermarkets.</p>
+                </div>
+                <div class="user">
+                    <div class="user-img">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80" alt="Priya Sharma">
                     </div>
-                    <div class="user">
-                        <div class="user-img">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80" alt="Rajesh Kumar">
-                        </div>
-                        <div class="user-info">
-                            <p>Rajesh Kumar</p>
-                            <span>Farmer, Bihar</span>
-                            <div class="role-tag farmer-tag">Farmer</div>
-                        </div>
+                    <div class="user-info">
+                        <p data-key="testimonial2Name">Ananya Patel</p>
+                        <span data-key="testimonial2Location">Homemaker, Gujarat</span>
+                        <div class="role-tag buyer-tag" data-key="testimonial2Role">Buyer</div>
                     </div>
                 </div>
-                
-                <div class="testimonial">
-                    <div class="quote">
-                        <p>As a buyer, I get fresh produce directly from farms at reasonable prices. The quality is exceptional compared to supermarkets.</p>
+            </div>
+            
+            <div class="testimonial">
+                <div class="quote">
+                    <p data-key="testimonial3Quote">The local language interface made it easy for my grandmother to use the app. She now sells her handicrafts to customers across the state.</p>
+                </div>
+                <div class="user">
+                    <div class="user-img">
+                        <img src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&q=80" alt="Priya Sharma">
                     </div>
-                    <div class="user">
-                        <div class="user-img">
-                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80" alt="Priya Sharma">
-                        </div>
-                        <div class="user-info">
-                            <p>Ananya Patel</p>
-                            <span>Homemaker, Gujarat</span>
-                            <div class="role-tag buyer-tag">Buyer</div>
-                        </div>
+                    <div class="user-info">
+                        <p data-key="testimonial3Name">Priya Sharma</p>
+                        <span data-key="testimonial3Location">Artisan, Rajasthan</span>
+                        <div class="role-tag artisan-tag" data-key="testimonial3Role">Artisan</div>
                     </div>
                 </div>
-                
-                <div class="testimonial">
-                    <div class="quote">
-                        <p>The local language interface made it easy for my grandmother to use the app. She now sells her handicrafts to customers across the state.</p>
-                    </div>
-                    <div class="user">
-                        <div class="user-img">
-                            <img src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&q=80" alt="Priya Sharma">
-                        </div>
-                        <div class="user-info">
-                            <p>Priya Sharma</p>
-                            <span>Artisan, Rajasthan</span>
-                            <div class="role-tag artisan-tag">Artisan</div>
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="quote">
+                    <p data-key="testimonial4Quote">As a restaurant owner, GramBazaar gives me direct access to fresh, seasonal produce. My food quality has improved significantly.</p>
                 </div>
-                
-                <div class="testimonial">
-                    <div class="quote">
-                        <p>As a restaurant owner, GramBazaar gives me direct access to fresh, seasonal produce. My food quality has improved significantly.</p>
+                <div class="user">
+                    <div class="user-img">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Vikram Singh">
                     </div>
-                    <div class="user">
-                        <div class="user-img">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Vikram Singh">
-                        </div>
-                        <div class="user-info">
-                            <p>Vikram Singh</p>
-                            <span>Restaurateur, Delhi</span>
-                            <div class="role-tag buyer-tag">Business Buyer</div>
-                        </div>
+                    <div class="user-info">
+                        <p data-key="testimonial4Name">Vikram Singh</p>
+                        <span data-key="testimonial4Location">Restaurateur, Delhi</span>
+                        <div class="role-tag buyer-tag" data-key="testimonial4Role">Business Buyer</div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-col">
-                    <div class="logo">
-                        <i class="fas fa-seedling"></i>
-                        <span>GramBazaar</span>
-                    </div>
-                    <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+<footer id="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-col">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span data-key="footerLogo">GramBazaar</span>
                 </div>
-                
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Become a Seller</a></li>
-                        <li><a href="#">Buyer Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Success Stories</a></li>
-                        <li><a href="#">Market Insights</a></li>
-                        <li><a href="#">Farmer Training</a></li>
-                        <li><a href="#">Download App</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Contact Us</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
-                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
-                        <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
-                    </ul>
-                    <div class="language-switcher">
-                        <i class="fas fa-globe"></i>
-                        <select>
-                            <option value="en">English</option>
-                            <option value="hi">हिन्दी</option>
-                            <option value="te">తెలుగు</option>
-                        </select>
-                    </div>
+                <p data-key="footerDescription">Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             
-            <div class="footer-bottom">
-                <p>Made with ❤️ by Team GramBazaar</p>
-                <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <div class="footer-col">
+                <h4 data-key="footerQuickLinks">Quick Links</h4>
+                <ul>
+                    <li><a href="#" data-key="footerAboutUs">About Us</a></li>
+                    <li><a href="#" data-key="footerHowItWorks">How It Works</a></li>
+                    <li><a href="#" data-key="footerBecomeSeller">Become a Seller</a></li>
+                    <li><a href="#" data-key="footerBuyerGuide">Buyer Guide</a></li>
+                    <li><a href="#" data-key="footerFAQs">FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerResources">Resources</h4>
+                <ul>
+                    <li><a href="#" data-key="footerBlog">Blog</a></li>
+                    <li><a href="#" data-key="footerSuccessStories">Success Stories</a></li>
+                    <li><a href="#" data-key="footerMarketInsights">Market Insights</a></li>
+                    <li><a href="#" data-key="footerFarmerTraining">Farmer Training</a></li>
+                    <li><a href="#" data-key="footerDownloadApp">Download App</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerContactUs">Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span data-key="footerAddress">Rural Tech Park, Hyderabad</span></li>
+                    <li><i class="fas fa-phone"></i> <span data-key="footerPhone">+91 9876543210</span></li>
+                    <li><i class="fas fa-envelope"></i> <span data-key="footerEmail">support@grambazaar.com</span></li>
+                </ul>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en" data-key="langEnglish">English</option>
+                        <option value="hi" data-key="langHindi">हिन्दी</option>
+                        <option value="te" data-key="langTelugu">తెలుగు</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </footer>
-    <script src="translations.js"></script>
+        
+        <div class="footer-bottom">
+            <p data-key="footerMadeWith">Made with ❤️ by Team GramBazaar</p>
+            <p data-key="footerRights">&copy; 2025 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+</footer>
+
+    <script src="dashboard_translations.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -1062,7 +1066,7 @@
     const lang = this.value;
     document.querySelectorAll("[data-key]").forEach(el => {
         const key = el.getAttribute("data-key");
-        el.innerHTML = translations[lang][key];
+        el.innerHTML = dashboardTranslations[lang][key];
     });
 });
 
