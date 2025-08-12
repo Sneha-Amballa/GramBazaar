@@ -181,7 +181,7 @@
         
         .language-switcher select {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(1, 14, 2, 0.3);
             border-radius: 6px;
             color: var(--light-leaf);
             padding: 8px 12px;
@@ -755,18 +755,17 @@
         <div class="container">
             <a href="#" class="logo">
                 <i class="fas fa-seedling"></i>
-                <span>GramBazaar</span>
+                <span data-key="mainHeading">GramBazaar</span>
             </a>
             
             <div class="nav-links">
-                <a href="#" class="active">Home</a>
-                <a href="#">Contact</a>
+                <a href="#" class="active" data-key="navHome">Home</a>
+                <a href="#" data-key="navContact">Contact</a>
                 <div class="language-switcher">
                     <i class="fas fa-globe"></i>
                     <select>
                         <option value="en">English</option>
                         <option value="hi">हिन्दी</option>
-                        <option value="ta">தமிழ்</option>
                         <option value="te">తెలుగు</option>
                     </select>
                 </div>
@@ -783,8 +782,8 @@
     <section id="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Connecting <span>Farmers Directly</span> to Buyers</h1>
-                <p>A local-language marketplace empowering rural producers and artisans to sell directly to consumers, eliminating middlemen and increasing profits.</p>
+                <h1 data-key="welcomeMsg">Connecting <span>Farmers Directly</span> to Buyers</h1>
+                <p data-key="description">A local-language marketplace empowering rural producers and artisans to sell directly to consumers, eliminating middlemen and increasing profits.</p>
                 <div class="cta-buttons">
                     <button class="btn seller">Join as Seller</button>
                     <button class="btn explore">Explore Products</button>
@@ -979,7 +978,6 @@
                         <select>
                             <option value="en">English</option>
                             <option value="hi">हिन्दी</option>
-                            <option value="ta">தமிழ்</option>
                             <option value="te">తెలుగు</option>
                         </select>
                     </div>
@@ -992,7 +990,7 @@
             </div>
         </div>
     </footer>
-
+    <script src="translations.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -1060,6 +1058,14 @@
         }, { threshold: 0.5 });
         
         observer.observe(statsSection);
+        document.querySelector(".language-switcher select").addEventListener("change", function() {
+    const lang = this.value;
+    document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.getAttribute("data-key");
+        el.innerHTML = translations[lang][key];
+    });
+});
+
     </script>
 </body>
 </html>
