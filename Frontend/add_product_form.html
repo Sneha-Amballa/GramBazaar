@@ -400,143 +400,171 @@
     <!-- Navbar -->
     <nav id="navbar">
         <div class="container">
-            <a href="seller_dashboard.html" class="logo">
+            <a href="#" class="logo">
                 <i class="fas fa-seedling"></i>
-                <span>GramBazaar</span>
+                <span data-key="mainHeading">GramBazaar</span>
             </a>
             
             <div class="nav-links">
-                <a href="seller_dashboard.html">Dashboard</a>
-                <a href="add_product.html" class="active">Add Product</a>
-                <a href="seller_profile.html">Profile</a>
+                <a href="#" class="active" data-key="navHome">Home</a>
+                <a href="#" data-key="navContact">Contact</a>
                 <div class="language-switcher">
                     <i class="fas fa-globe"></i>
-                    <select id="language-select">
+                    <select id="languageSelect">
                         <option value="en">English</option>
                         <option value="hi">हिन्दी</option>
-                        <option value="ta">தமிழ்</option>
                         <option value="te">తెలుగు</option>
                     </select>
                 </div>
             </div>
             
             <div class="auth-buttons">
-                <button class="btn login">Rajesh S.</button>
-                <button class="btn signup">Logout</button>
+                <a href="login.html"><button class="btn login" data-key="loginbtn">Login</button></a>
+                <a href="login.html" ><button class="btn signup" data-key="signupbtn">Sign Up</button></a>
             </div>
         </div>
     </nav>
 
     <div class="page-content">
-        <div class="container">
-            <h1 class="page-title"><i class="fas fa-plus-circle"></i> Add New Product</h1>
-            
-            <div class="form-container">
-                <div class="form-header">
-                    <i class="fas fa-plus-circle"></i> Product Information
-                </div>
-                <div class="form-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="product-name">Product Name</label>
-                            <input type="text" class="form-control" id="product-name" placeholder="Enter product name">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="product-category">Category</label>
-                            <select class="form-control" id="product-category">
-                                <option value="">Select category</option>
-                                <option value="food">Food & Grains</option>
-                                <option value="handicraft">Handicrafts</option>
-                                <option value="pottery">Pottery</option>
-                                <option value="textile">Textiles</option>
-                                <option value="natural">Natural Products</option>
-                            </select>
-                        </div>
-                    </div>
-                    
+    <div class="container">
+        <h1 class="page-title" data-key="addProductTitle">
+            <i class="fas fa-plus-circle"></i> Add New Product
+        </h1>
+        
+        <div class="form-container">
+            <div class="form-header" data-key="productInfoHeader">
+                <i class="fas fa-plus-circle"></i> Product Information
+            </div>
+            <div class="form-body">
+                <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="product-description">Description</label>
-                        <textarea class="form-control" id="product-description" placeholder="Describe your product in detail"></textarea>
+                        <label class="form-label" for="product-name" data-key="productNameLabel">Product Name</label>
+                        <input type="text" class="form-control" id="product-name" placeholder="Enter product name" data-key-placeholder="productNamePlaceholder">
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="product-price">Price (₹)</label>
-                            <input type="number" class="form-control" id="product-price" placeholder="Enter price">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="product-stock">Stock Quantity</label>
-                            <input type="number" class="form-control" id="product-stock" placeholder="Enter quantity">
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
-                        <label class="form-label">Product Images</label>
-                        <div class="file-upload" id="image-upload">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <div class="upload-text">Click to upload or drag and drop</div>
-                            <div class="upload-hint">PNG, JPG up to 5MB</div>
-                            <input type="file" id="file-input" style="display: none;">
-                        </div>
-                        <div id="upload-status" style="display: none; margin-top: 20px;">
-                            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
-                                <i class="fas fa-check-circle" style="color: #4caf50;"></i>
-                                <span>Image uploaded successfully to Cloudinary!</span>
-                            </div>
+                        <label class="form-label" for="product-category" data-key="categoryLabel">Category</label>
+                        <select class="form-control" id="product-category" data-key-placeholder="categoryPlaceholder">
+                            <option value="" data-key="selectCategory">Select category</option>
+                            <option value="food" data-key="categoryFood">Food & Grains</option>
+                            <option value="handicraft" data-key="categoryHandicraft">Handicrafts</option>
+                            <option value="pottery" data-key="categoryPottery">Pottery</option>
+                            <option value="textile" data-key="categoryTextile">Textiles</option>
+                            <option value="natural" data-key="categoryNatural">Natural Products</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="product-description" data-key="descriptionLabel">Description</label>
+                    <textarea class="form-control" id="product-description" placeholder="Describe your product in detail" data-key-placeholder="descriptionPlaceholder"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="product-price" data-key="priceLabel">Price (₹)</label>
+                        <input type="number" class="form-control" id="product-price" placeholder="Enter price" data-key-placeholder="pricePlaceholder">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="product-stock" data-key="stockLabel">Stock Quantity</label>
+                        <input type="number" class="form-control" id="product-stock" placeholder="Enter quantity" data-key-placeholder="stockPlaceholder">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" data-key="productImagesLabel">Product Images</label>
+                    <div class="file-upload" id="image-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <div class="upload-text" data-key="uploadText">Click to upload or drag and drop</div>
+                        <div class="upload-hint" data-key="uploadHint">PNG, JPG up to 5MB</div>
+                        <input type="file" id="file-input" style="display: none;">
+                    </div>
+                    <div id="upload-status" style="display: none; margin-top: 20px;">
+                        <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
+                            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                            <span data-key="uploadSuccess">Image uploaded successfully to Cloudinary!</span>
                         </div>
                     </div>
-                    
-                    <button class="btn btn-primary btn-block" id="save-product">
-                        <i class="fas fa-save"></i> Save Product
-                    </button>
                 </div>
+                
+                <button class="btn btn-primary btn-block" id="save-product" data-key="saveProductBtn">
+                    <i class="fas fa-save"></i> Save Product
+                </button>
             </div>
         </div>
     </div>
-    
+</div>
+
     <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-col">
-                    <a href="#" class="logo"><i class="fas fa-seedling"></i> GramBazaar</a>
-                    <p>Empowering rural communities through technology. Bringing farmers and buyers together.</p>
+     <footer id="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-col">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span data-key="footerLogo">GramBazaar</span>
                 </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="seller_dashboard.html">Dashboard</a></li>
-                        <li><a href="add_product.html">Add Product</a></li>
-                        <li><a href="seller_profile.html">Profile</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
+                <p data-key="footerDescription">Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-                <div class="footer-col">
-                    <h4>Categories</h4>
-                    <ul>
-                        <li><a href="#">Farm Produce</a></li>
-                        <li><a href="#">Handicrafts</a></li>
-                        <li><a href="#">Dairy Products</a></li>
-                        <li><a href="#">Organic Foods</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact Us</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Village Square, Rural India</li>
-                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
-                        <li><i class="fas fa-envelope"></i> info@grambazaar.com</li>
-                    </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerQuickLinks">Quick Links</h4>
+                <ul>
+                    <li><a href="#" data-key="footerAboutUs">About Us</a></li>
+                    <li><a href="#" data-key="footerHowItWorks">How It Works</a></li>
+                    <li><a href="#" data-key="footerBecomeSeller">Become a Seller</a></li>
+                    <li><a href="#" data-key="footerBuyerGuide">Buyer Guide</a></li>
+                    <li><a href="#" data-key="footerFAQs">FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerResources">Resources</h4>
+                <ul>
+                    <li><a href="#" data-key="footerBlog">Blog</a></li>
+                    <li><a href="#" data-key="footerSuccessStories">Success Stories</a></li>
+                    <li><a href="#" data-key="footerMarketInsights">Market Insights</a></li>
+                    <li><a href="#" data-key="footerFarmerTraining">Farmer Training</a></li>
+                    <li><a href="#" data-key="footerDownloadApp">Download App</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerContactUs">Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span data-key="footerAddress">Rural Tech Park, Hyderabad</span></li>
+                    <li><i class="fas fa-phone"></i> <span data-key="footerPhone">+91 9876543210</span></li>
+                    <li><i class="fas fa-envelope"></i> <span data-key="footerEmail">support@grambazaar.com</span></li>
+                </ul>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en" data-key="langEnglish">English</option>
+                        <option value="hi" data-key="langHindi">हिन्दी</option>
+                        <option value="te" data-key="langTelugu">తెలుగు</option>
+                    </select>
                 </div>
             </div>
         </div>
-    </footer>
-    
+        
+        <div class="footer-bottom">
+            <p data-key="footerMadeWith">Made with ❤️ by Team GramBazaar</p>
+            <p data-key="footerRights">&copy; 2025 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+</footer>
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notification-text">Action completed successfully!</span>
     </div>
-    
+    <script src="dashboard_translations.js"></script>
+    <script src="login_translations.js"></script>
+    <script src="add_product_translations.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -625,7 +653,23 @@
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
-        }
+        }    
+        const combinedTranslations = {
+            en: { ...dashboardTranslations.en, ...loginTranslations.en , ...AddProductTranslations.en },
+            hi: { ...dashboardTranslations.hi, ...loginTranslations.hi , ...AddProductTranslations.hi},
+            te: { ...dashboardTranslations.te, ...loginTranslations.te , ...AddProductTranslations.te}
+        };
+        document.getElementById("languageSelect").addEventListener("change", function() {
+            const lang = this.value;
+            localStorage.setItem("lang", lang);
+            document.querySelectorAll("[data-key]").forEach(el => {
+                const key = el.getAttribute("data-key");
+                if (combinedTranslations[lang] && combinedTranslations[lang][key]) {
+                    el.innerHTML = combinedTranslations[lang][key];
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
