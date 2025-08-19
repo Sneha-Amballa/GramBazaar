@@ -1,669 +1,1507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buyer Dashboard | GramBazaar</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --deep-green: #14532d;
-      --deep-brown: #6e4c1e;
-      --mustard: #facc15;
-      --light-leaf: #e6f4ea;
-      --transition: all 0.3s ease;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-    }
-
-    body {
-      margin: 0;
-      background-color: #f1fbe8;
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 500;
-      color: var(--deep-green);
-    }
-
-    /* NAVBAR STYLES */
-    .navbar {
-      background-color: #2e7d32;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 5%;
-      box-shadow: var(--shadow-md);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav-section {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-left {
-      flex: 1;
-    }
-
-    .nav-center {
-      flex: 2;
-      justify-content: center;
-      gap: 2rem;
-    }
-
-    .nav-right {
-      flex: 1;
-      justify-content: flex-end;
-    }
-
-    .nav-section a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      margin: 0 10px;
-      transition: var(--transition);
-      font-size: 1.05rem;
-      letter-spacing: 0.3px;
-      position: relative;
-      padding: 8px 0;
-    }
-
-    .nav-section a:hover {
-      color: var(--mustard);
-    }
-
-    .nav-section a:after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: var(--mustard);
-      bottom: 0;
-      left: 0;
-      transition: width 0.3s ease;
-    }
-
-    .nav-section a:hover:after {
-      width: 100%;
-    }
-
-    .nav-logo {
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-logo i {
-      color: var(--mustard);
-      font-size: 1.4rem;
-    }
-
-    .language-switcher {
-      display: flex;
-      align-items: center;
-      margin-left: 15px;
-      position: relative;
-    }
-
-    .language-switcher i {
-      margin-right: 8px;
-      color: var(--mustard);
-      font-size: 1rem;
-    }
-
-    .language-switcher select {
-      background: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 30px 6px 12px;
-      font-weight: 500;
-      color: #2e7d32;
-      cursor: pointer;
-      appearance: none;
-      font-size: 0.95rem;
-    }
-
-    .language-switcher:after {
-      content: '\f078';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-      color: #2e7d32;
-      font-size: 12px;
-    }
-
-    /* MAIN DASHBOARD SECTION */
-    .dashboard-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 50px 5%;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 40px;
-      color: var(--deep-green);
-      position: relative;
-      padding-bottom: 15px;
-    }
-
-    h2:after {
-      content: '';
-      position: absolute;
-      width: 80px;
-      height: 3px;
-      background: var(--mustard);
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 40px;
-    }
-
-    .filters input,
-    .filters select {
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      width: 240px;
-      background-color: #fff;
-      font-size: 1rem;
-      transition: var(--transition);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .filters input:focus,
-    .filters select:focus {
-      outline: none;
-      border-color: var(--mustard);
-      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
-    }
-
-    .product-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 30px;
-      justify-content: center;
-    }
-
-    .product-card {
-      background-color: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow-md);
-      text-align: center;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .product-card h4 {
-      margin: 15px 0 8px;
-      font-size: 1.2rem;
-      color: #333;
-      font-weight: 600;
-    }
-
-    .product-card p {
-      color: #555;
-      font-size: 1rem;
-      margin: 0 0 15px;
-      font-weight: 500;
-    }
-
-    .add-to-cart {
-      background-color: var(--mustard);
-      color: #333;
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: auto;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .add-to-cart:hover {
-      background-color: #e6b800;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* FOOTER STYLES */
-    #footer {
-      background-color: var(--deep-brown);
-      color: var(--light-leaf);
-      padding-top: 80px;
-      margin-top: 80px;
-    }
-
-    .footer-top {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 50px;
-      padding: 0 5% 60px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .footer-col h4 {
-      color: var(--mustard);
-      margin-bottom: 25px;
-      font-size: 1.4rem;
-      position: relative;
-      padding-bottom: 12px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .footer-col h4:after {
-      content: '';
-      position: absolute;
-      width: 50px;
-      height: 3px;
-      background: var(--mustard);
-      bottom: 0;
-      left: 0;
-      border-radius: 2px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-col ul li {
-      margin-bottom: 15px;
-    }
-
-    .footer-col ul li a {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      transition: var(--transition);
-      font-size: 1.05rem;
-      display: inline-block;
-    }
-
-    .footer-col ul li a:hover {
-      color: var(--mustard);
-      transform: translateX(5px);
-    }
-
-    .footer-col .logo {
-      font-size: 2rem;
-      margin-bottom: 25px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-    }
-
-    .footer-col .logo i {
-      color: var(--mustard);
-    }
-
-    .footer-col p {
-      margin-bottom: 25px;
-      max-width: 300px;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      opacity: 0.9;
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 25px;
-    }
-
-    .social-icons a {
-      color: white;
-      background-color: rgba(255,255,255,0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-      font-size: 1.1rem;
-    }
-
-    .social-icons a:hover {
-      background-color: var(--mustard);
-      color: #333;
-      transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding: 30px 5%;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .footer-bottom div {
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    /* Animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .product-card {
-      animation: fadeIn 0.6s ease-out forwards;
-      animation-delay: calc(var(--order) * 0.1s);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        padding: 1.2rem;
-      }
-      
-      .nav-section {
-        width: 100%;
-        justify-content: center;
-        margin: 8px 0;
-      }
-      
-      .nav-center {
-        order: 3;
-        margin-top: 15px;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-      
-      .dashboard-container {
-        padding: 40px 20px;
-      }
-      
-      .filters {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .filters input,
-      .filters select {
-        width: 100%;
-        max-width: 300px;
-      }
-      
-      .product-list {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramBazaar - Buyer Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-green: #465F16;
+            --light-leaf: #f1fbe8;
+            --mustard: #f5b041;
+            --dark-mustard: #e09e2f;
+            --dark-gray: #333333;
+            --light-gray: #888888;
+            --deep-brown: #6e4c1e;
+            --soft-blue: #6ca0dc;
+            --white: #ffffff;
+            --light-red: #f8d7da;
+            --dark-red: #721c24;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark-gray);
+            background: linear-gradient(to bottom, #ffffff 0%, var(--light-leaf) 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        
+        section {
+            padding: 80px 0 40px;
+        }
+        
+        /* Navigation Bar */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-leaf);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--mustard);
+            transition: var(--transition);
+        }
+        
+        .logo:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light-leaf);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .nav-links a:hover:after, 
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .language-switcher select option {
+            background: var(--deep-green);
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .user-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .user-avatar-sm {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--light-leaf);
+        }
+        
+        .user-avatar-sm img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-header h1 {
+            color: var(--deep-green);
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-header p {
+            color: var(--light-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+        
+        /* Filters Panel */
+        .filters-panel {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .filters-panel h3 {
+            color: var(--deep-green);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .filters-panel h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .filter-group {
+            margin-bottom: 25px;
+        }
+        
+        .filter-group h4 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-group h4 i {
+            color: var(--mustard);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--mustard);
+        }
+        
+        .filter-checkbox label {
+            font-size: 0.95rem;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .price-range input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .btn-apply {
+            background: var(--deep-green);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-apply:hover {
+            background: #3a5012;
+        }
+        
+        /* Products Grid */
+        .products-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+        }
+        
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(241, 251, 232, 0.5);
+            border-radius: 30px;
+            padding: 8px 15px;
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+        }
+        
+        .sorting-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .sorting-options label {
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+        }
+        
+        .sorting-options select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .sorting-options select:focus {
+            border-color: var(--mustard);
+            outline: none;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(241, 251, 232, 0.8);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card.featured {
+            border: 2px solid var(--mustard);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--mustard);
+            color: var(--white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+        
+        .product-img {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.7);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn:hover {
+            background: var(--mustard);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--deep-green);
+            height: 44px;
+            overflow: hidden;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: var(--mustard);
+            font-size: 1.2rem;
+        }
+        
+        .product-distance {
+            background: rgba(70, 95, 22, 0.1);
+            color: var(--deep-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: var(--mustard);
+        }
+        
+        .rating-count {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+        }
+        
+        .product-cta {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-wishlist {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-wishlist:hover, .btn-wishlist.active {
+            background: var(--light-leaf);
+            border-color: var(--mustard);
+            color: var(--mustard);
+        }
+        
+        .btn-buy {
+            flex: 1;
+            background: var(--deep-green);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-buy:hover {
+            background: #3a5012;
+            transform: translateY(-2px);
+        }
+        
+        /* Recently Viewed */
+        .recently-viewed {
+            margin-top: 50px;
+        }
+        
+        .recently-viewed h3 {
+            color: var(--deep-green);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .recently-viewed h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .recent-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(241, 251, 232, 0.8);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .recent-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .recent-img {
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .recent-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .recent-title {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--deep-green);
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .recent-price {
+            font-weight: 600;
+            color: var(--mustard);
+            font-size: 1rem;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-btn:hover, .page-btn.active {
+            background: var(--mustard);
+            color: var(--white);
+            border-color: var(--mustard);
+        }
+        
+        /* Footer */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 80px;
+            position: relative;
+            margin-top: 60px;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-leaf);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--mustard);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-panel {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--deep-green);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--light-leaf);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-cta {
+                flex-direction: column;
+            }
+            
+            .btn-buy {
+                width: 100%;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+        }
+        
+        /* Wishlist Tab */
+        .dashboard-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(241, 251, 232, 0.8);
+            padding-bottom: 15px;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        
+        .tab-btn.active {
+            background: var(--deep-green);
+            color: var(--white);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .empty-wishlist {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .empty-wishlist i {
+            font-size: 4rem;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+        
+        .empty-wishlist h3 {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+        
+        .empty-wishlist p {
+            color: var(--light-gray);
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-section nav-left">
-    <div class="nav-logo"><i class="fas fa-seedling"></i> GramBazaar</div>
-  </div>
-
-  <div class="nav-section nav-center">
-    <a href="page2.html">Product details</a>
-    <a href="buyer_profile.html">My Profile</a>
-    <div class="language-switcher">
-      <i class="fas fa-globe"></i>
-      <select>
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="ta">தமிழ்</option>
-        <option value="te">తెలుగు</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="nav-section nav-right"></div>
-</nav>
-
-<!-- MAIN CONTENT -->
-<div class="dashboard-container">
-  <h2>Discover Nearby Products</h2>
-
-  <div class="filters">
-    <input type="text" placeholder="Search by name...">
-    <select>
-      <option>All Categories</option>
-      <option>Vegetables</option>
-      <option>Handicrafts</option>
-      <option>Grains</option>
-      <option>Dairy</option>
-    </select>
-    <select>
-      <option>Price Range</option>
-      <option>Below ₹100</option>
-      <option>₹100 - ₹500</option>
-      <option>₹500 - ₹1000</option>
-      <option>Above ₹1000</option>
-    </select>
-  </div>
-
-  <div class="product-list">
-    <div class="product-card" style="--order: 1">
-      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
-      <h4>Organic Tomatoes</h4>
-      <p>₹60/kg</p>
-      <button class="add-to-cart" onclick="addToCart('Organic Tomatoes', 60, 'kg')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 2">
-      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
-      <h4>Handmade Clay Pots</h4>
-      <p>₹250</p>
-      <button class="add-to-cart" onclick="addToCart('Handmade Clay Pots', 250, '')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 3">
-      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
-      <h4>Terracotta Vase</h4>
-      <p>₹350</p>
-      <button class="add-to-cart" onclick="addToCart('Terracotta Vase', 350, '')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 4">
-      <img src="traditional-indian-clay-pots-traditional-indian-clay-pots-water-storage-222545981.webp" alt="Clay Pots">
-      <h4>Water Storage Pot</h4>
-      <p>₹450</p>
-      <button class="add-to-cart" onclick="addToCart('Water Storage Pot', 450, '')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 5">
-      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
-      <h4>Organic Brinjal</h4>
-      <p>₹45/kg</p>
-      <button class="add-to-cart" onclick="addToCart('Organic Brinjal', 45, 'kg')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 6">
-      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
-      <h4>Fresh Cucumber</h4>
-      <p>₹30/kg</p>
-      <button class="add-to-cart" onclick="addToCart('Fresh Cucumber', 30, 'kg')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-    <div class="product-card" style="--order: 7">
-      <img src="Brinjal_JacChua (2).jpg" alt="Tomatoes">
-      <h4>Farm Fresh Carrots</h4>
-      <p>₹55/kg</p>
-      <button class="add-to-cart" onclick="addToCart('Farm Fresh Carrots', 55, 'kg')">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer id="footer">
-  <div class="container">
-    <div class="footer-top">
-      <div class="footer-col">
-        <div class="logo"><i class="fas fa-seedling"></i> GramBazaar</div>
-        <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>GramBazaar</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="buyer_dashboard.html" class="active">Dashboard</a>
+                <a href="buyer_profile.html">Profile</a>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-indicator">
+                    <div class="user-avatar-sm">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" alt="User">
+                    </div>
+                    <span style="color: var(--light-leaf);">Ananya</span>
+                </div>
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">How It Works</a></li>
-          <li><a href="#">Become a Seller</a></li>
-          <li><a href="#">Buyer Guide</a></li>
-          <li><a href="#">FAQs</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Success Stories</a></li>
-          <li><a href="#">Market Insights</a></li>
-          <li><a href="#">Farmer Training</a></li>
-          <li><a href="#">Download App</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <ul>
-          <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
-          <li><i class="fas fa-phone"></i> +91 9876543210</li>
-          <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
-        </ul>
-        <div class="language-switcher">
-          <i class="fas fa-globe"></i>
-          <select>
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-            <option value="ta">தமிழ்</option>
-            <option value="te">తెలుగు</option>
-          </select>
+    <!-- Dashboard Section -->
+    <section>
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Buyer Dashboard</h1>
+                <p>Discover fresh produce and handmade goods from local sellers near you</p>
+            </div>
+            
+            <div class="dashboard-container">
+                <!-- Filters Panel -->
+                <div class="filters-panel">
+                    <h3>Filters</h3>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-search"></i> Search</h4>
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search products...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                        <div class="search-bar">
+                            <input type="text" placeholder="Enter pincode" value="500001">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-tags"></i> Categories</h4>
+                        <div class="filter-options">
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="fruits" checked>
+                                <label for="fruits">Fruits & Vegetables</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="grains" checked>
+                                <label for="grains">Grains & Pulses</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="dairy">
+                                <label for="dairy">Dairy & Eggs</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="bakery">
+                                <label for="bakery">Bakery</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="handmade">
+                                <label for="handmade">Handmade Goods</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-rupee-sign"></i> Price Range</h4>
+                        <div class="price-range">
+                            <input type="number" placeholder="Min" value="50">
+                            <input type="number" placeholder="Max" value="1000">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-star"></i> Rating</h4>
+                        <div class="filter-options">
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="rating5">
+                                <label for="rating5">
+                                    <span class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="rating4" checked>
+                                <label for="rating4">
+                                    <span class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i> & up
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="rating3">
+                                <label for="rating3">
+                                    <span class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i> & up
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-apply">Apply Filters</button>
+                </div>
+                
+                <!-- Products Content -->
+                <div class="products-container">
+                    <div class="dashboard-tabs">
+                        <button class="tab-btn active" data-tab="products">Products</button>
+                        <button class="tab-btn" data-tab="wishlist">Wishlist</button>
+                    </div>
+                    
+                    <!-- Products Tab -->
+                    <div id="products-tab" class="tab-content active">
+                        <div class="products-header">
+                            <div class="search-bar">
+                                <input type="text" placeholder="Search by product name...">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            
+                            <div class="sorting-options">
+                                <label for="sort">Sort by:</label>
+                                <select id="sort">
+                                    <option value="newest">Newest First</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="distance">Nearest First</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="products-grid">
+                            <!-- Product 1 -->
+                            <div class="product-card featured">
+                                <div class="product-badge">Nearest</div>
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1561136594-7f68413baa99?auto=format&fit=crop&q=80&w=600" alt="Organic Apples">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Organic Apples - Kashmir</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹220 / kg</div>
+                                        <div class="product-distance">0.8 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <div class="rating-count">(42)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 2 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?auto=format&fit=crop&q=80&w=600" alt="Organic Wheat">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Organic Wheat Flour</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹180 / kg</div>
+                                        <div class="product-distance">1.2 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="rating-count">(28)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 3 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&q=80&w=600" alt="Fresh Honey">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Pure Forest Honey</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹350 / 500g</div>
+                                        <div class="product-distance">2.5 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="rating-count">(67)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 4 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1592921870789-045959c3e5c0?auto=format&fit=crop&q=80&w=600" alt="Handmade Pottery">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Handmade Pottery Set</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹1,450</div>
+                                        <div class="product-distance">3.1 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <div class="rating-count">(35)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 5 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?auto=format&fit=crop&q=80&w=600" alt="Fresh Tomatoes">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Fresh Organic Tomatoes</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹90 / kg</div>
+                                        <div class="product-distance">1.8 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="rating-count">(31)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 6 -->
+                            <div class="product-card">
+                                <div class="product-img">
+                                    <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?auto=format&fit=crop&q=80&w=600" alt="Organic Rice">
+                                </div>
+                                <div class="product-actions">
+                                    <div class="action-btn">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Organic Basmati Rice</h3>
+                                    <div class="product-meta">
+                                        <div class="product-price">₹120 / kg</div>
+                                        <div class="product-distance">2.7 km</div>
+                                    </div>
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="rating-count">(19)</div>
+                                    </div>
+                                    <div class="product-cta">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="btn-buy">
+                                            <i class="fas fa-bolt"></i> Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <div class="page-btn active">1</div>
+                            <div class="page-btn">2</div>
+                            <div class="page-btn">3</div>
+                            <div class="page-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Recently Viewed -->
+                        <div class="recently-viewed">
+                            <h3>Recently Viewed</h3>
+                            <div class="recent-grid">
+                                <div class="recent-card">
+                                    <div class="recent-img">
+                                        <img src="https://images.unsplash.com/photo-1568702846920-caffd706b0e7?auto=format&fit=crop&q=80&w=600" alt="Fresh Carrots">
+                                    </div>
+                                    <h4 class="recent-title">Fresh Organic Carrots</h4>
+                                    <div class="recent-price">₹65 / kg</div>
+                                </div>
+                                
+                                <div class="recent-card">
+                                    <div class="recent-img">
+                                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=600" alt="Homemade Jam">
+                                    </div>
+                                    <h4 class="recent-title">Homemade Mango Jam</h4>
+                                    <div class="recent-price">₹220</div>
+                                </div>
+                                
+                                <div class="recent-card">
+                                    <div class="recent-img">
+                                        <img src="https://images.unsplash.com/photo-1528821128474-27a963496463?auto=format&fit=crop&q=80&w=600" alt="Fresh Potatoes">
+                                    </div>
+                                    <h4 class="recent-title">Fresh Farm Potatoes</h4>
+                                    <div class="recent-price">₹45 / kg</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Wishlist Tab -->
+                    <div id="wishlist-tab" class="tab-content">
+                        <div class="empty-wishlist">
+                            <i class="far fa-heart"></i>
+                            <h3>Your Wishlist is Empty</h3>
+                            <p>Start adding products you love by clicking the heart icon</p>
+                            <button class="btn-apply">
+                                <i class="fas fa-shopping-bag"></i> Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <div class="footer-bottom">
-      <div>&copy; 2025 GramBazaar | Built with ❤ for rural India</div>
-      <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
-    </div>
-  </div>
-</footer>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-col">
+                    <div class="logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>GramBazaar</span>
+                    </div>
+                    <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Become a Seller</a></li>
+                        <li><a href="#">Buyer Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Market Insights</a></li>
+                        <li><a href="#">Farmer Training</a></li>
+                        <li><a href="#">Download App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
+                    </ul>
+                    <div class="language-switcher">
+                        <i class="fas fa-globe"></i>
+                        <select>
+                            <option value="en">English</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Made with ❤ by Team GramBazaar</p>
+                <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
 
-<script>
-  function addToCart(name, price, unit) {
-    // Create a notification element
-    const notification = document.createElement('div');
-    notification.style.position = 'fixed';
-    notification.style.bottom = '20px';
-    notification.style.right = '20px';
-    notification.style.backgroundColor = '#4BB543';
-    notification.style.color = 'white';
-    notification.style.padding = '15px 25px';
-    notification.style.borderRadius = '8px';
-    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-    notification.style.zIndex = '1000';
-    notification.style.display = 'flex';
-    notification.style.alignItems = 'center';
-    notification.style.gap = '10px';
-    notification.style.animation = 'fadeIn 0.3s ease-out';
-    notification.innerHTML = `
-      <i class="fas fa-check-circle"></i>
-      <span>Added ${name} (₹${price}${unit ? '/'+unit : ''}) to cart</span>
-    `;
-    
-    // Add to body
-    document.body.appendChild(notification);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-      notification.style.animation = 'fadeOut 0.3s ease-out';
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 300);
-    }, 3000);
-    
-    console.log(`Added to cart: ${name}, Price: ₹${price}${unit ? '/' + unit : ''}`);
-  }
-
-  // Add fadeOut animation
-  const style = document.createElement('style');
-  style.innerHTML = `
-    @keyframes fadeOut {
-      from { opacity: 1; transform: translateY(0); }
-      to { opacity: 0; transform: translateY(20px); }
-    }
-  `;
-  document.head.appendChild(style);
-</script>
-
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        }
+        
+        // Wishlist functionality
+        document.querySelectorAll('.btn-wishlist').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                this.innerHTML = this.classList.contains('active') ? 
+                    '<i class="fas fa-heart"></i>' : 
+                    '<i class="far fa-heart"></i>';
+                
+                if (this.classList.contains('active')) {
+                    alert('Added to wishlist!');
+                } else {
+                    alert('Removed from wishlist!');
+                }
+            });
+        });
+        
+        // Buy Now functionality
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Proceeding to checkout...');
+            });
+        });
+        
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons
+                tabBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.remove('active'));
+                // Show selected tab content
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Sorting functionality
+        document.getElementById('sort').addEventListener('change', function() {
+            alert(`Sorting products by: ${this.options[this.selectedIndex].text}`);
+        });
+        
+        // Pagination
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.querySelector('i')) return;
+                
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Apply filters
+        document.querySelector('.btn-apply').addEventListener('click', function() {
+            alert('Filters applied successfully!');
+        });
+        
+        // Featured products highlighting
+        const featuredCards = document.querySelectorAll('.product-card.featured');
+        featuredCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+        });
+    </script>
 </body>
 </html>
