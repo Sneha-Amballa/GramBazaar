@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramBazaar - Seller Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-green: #465F16;
+            --light-leaf: #f1fbe8;
+            --mustard: #f5b041;
+            --dark-mustard: #e09e2f;
+            --dark-gray: #333333;
+            --light-gray: #888888;
+            --deep-brown: #6e4c1e;
+            --soft-blue: #6ca0dc;
+            --white: #ffffff;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark-gray);
+            background: linear-gradient(to bottom, #ffffff 0%, var(--light-leaf) 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--deep-green);
+            margin-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--mustard);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* Navigation Bar */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-leaf);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--mustard);
+            transition: var(--transition);
+        }
+        
+        .logo:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light-leaf);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .nav-links a:hover:after, 
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .language-switcher select option {
+            background: var(--deep-green);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn.login {
+            background: transparent;
+            color: var(--light-leaf);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn.signup {
+            background-color: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--mustard);
+        }
+        
+        .btn.signup:hover {
+            background-color: var(--dark-mustard);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(245, 176, 65, 0.3);
+        }
+        
+        /* Seller Dashboard Styles */
+        .dashboard {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+        }
+        
+        .total-orders .stat-icon {
+            background-color: rgba(108, 160, 220, 0.15);
+            color: var(--soft-blue);
+        }
+        
+        .pending .stat-icon {
+            background-color: rgba(245, 176, 65, 0.15);
+            color: var(--mustard);
+        }
+        
+        .in-transit .stat-icon {
+            background-color: rgba(70, 95, 22, 0.15);
+            color: var(--deep-green);
+        }
+        
+        .delivered .stat-icon {
+            background-color: rgba(66, 179, 112, 0.15);
+            color: #42b370;
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--deep-green);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--light-gray);
+            font-weight: 500;
+        }
+        
+        .filters-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid rgba(70, 95, 22, 0.2);
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--mustard);
+            box-shadow: 0 0 0 3px rgba(245, 176, 65, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-gray);
+        }
+        
+        .filter-select {
+            padding: 12px 15px;
+            border: 1px solid rgba(70, 95, 22, 0.2);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--white);
+            min-width: 160px;
+            transition: var(--transition);
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--mustard);
+            box-shadow: 0 0 0 3px rgba(245, 176, 65, 0.2);
+        }
+        
+        .refresh-btn {
+            background-color: var(--light-leaf);
+            color: var(--deep-green);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .refresh-btn:hover {
+            background-color: rgba(70, 95, 22, 0.1);
+        }
+        
+        .table-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(70, 95, 22, 0.1);
+            background: rgba(241, 251, 232, 0.3);
+        }
+        
+        .table-header h3 {
+            color: var(--deep-green);
+            font-size: 1.4rem;
+        }
+        
+        .deliveries-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .deliveries-table th {
+            background-color: rgba(241, 251, 232, 0.5);
+            padding: 15px 25px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--deep-green);
+            border-bottom: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .deliveries-table td {
+            padding: 15px 25px;
+            border-bottom: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .deliveries-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .deliveries-table tr:hover {
+            background-color: rgba(241, 251, 232, 0.3);
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background-color: rgba(245, 176, 65, 0.15);
+            color: var(--dark-mustard);
+        }
+        
+        .status-in-transit {
+            background-color: rgba(70, 95, 22, 0.15);
+            color: var(--deep-green);
+        }
+        
+        .status-delivered {
+            background-color: rgba(66, 179, 112, 0.15);
+            color: #2e8b57;
+        }
+        
+        .status-cancelled {
+            background-color: rgba(220, 80, 80, 0.15);
+            color: #dc5050;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--deep-green);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .view-btn {
+            color: var(--soft-blue);
+        }
+        
+        .update-btn {
+            color: var(--mustard);
+        }
+        
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+        
+        /* Status Dropdown Styles */
+        .status-dropdown {
+            position: fixed;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            padding: 10px 0;
+            min-width: 180px;
+            display: none;
+            animation: fadeIn 0.2s ease;
+            border: 1px solid rgba(70, 95, 22, 0.1);
+        }
+        
+        .status-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent white transparent;
+        }
+        
+        .status-dropdown-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+        
+        .status-dropdown-option:hover {
+            background-color: rgba(241, 251, 232, 0.7);
+        }
+        
+        .status-dropdown-option i {
+            width: 18px;
+            text-align: center;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            display: none;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(70, 95, 22, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(241, 251, 232, 0.3);
+        }
+        
+        .modal-header h3 {
+            color: var(--deep-green);
+            font-size: 1.4rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-btn:hover {
+            color: var(--deep-green);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .order-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .info-section h4 {
+            color: var(--deep-green);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .info-section h4:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+        }
+        
+        .info-item strong {
+            color: var(--deep-green);
+        }
+        
+        .timeline {
+            border-top: 1px solid rgba(70, 95, 22, 0.1);
+            padding-top: 25px;
+        }
+        
+        .timeline h4 {
+            color: var(--deep-green);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .timeline h4:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--mustard);
+            margin-right: 15px;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-content p {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content span {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(70, 95, 22, 0.1);
+            padding-top: 25px;
+        }
+        
+        .secondary-btn {
+            background-color: var(--light-leaf);
+            color: var(--deep-green);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .secondary-btn:hover {
+            background-color: rgba(70, 95, 22, 0.1);
+        }
+        
+        .primary-btn {
+            background-color: var(--mustard);
+            color: var(--deep-green);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .primary-btn:hover {
+            background-color: var(--dark-mustard);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #42b370;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Footer */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 80px;
+            position: relative;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-leaf);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--mustard);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .order-info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box, .filter-select {
+                min-width: 100%;
+            }
+            
+            .deliveries-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .status-dropdown {
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+                top: 50% !important;
+                width: 80%;
+                max-width: 250px;
+            }
+            
+            .status-dropdown::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .secondary-btn, .primary-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>GramBazaar</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="seller_dashboard.html">Dashboard</a>
+                <a href="add_product.html">Add Product</a>
+                
+                <a href="#" class="active">My Orders</a>
+                <a href="#">Contact</a>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                    </select>
+                </div>
+                <a href="seller_profile.html" title="Profile"><i class="fas fa-user"></i></a>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="btn login">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seller Dashboard -->
+    <section class="dashboard">
+        <div class="container">
+            <div class="section-title">
+                <h2>Seller Deliveries Dashboard</h2>
+                <p>Manage your orders and track deliveries</p>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card total-orders">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <div class="stat-number">247</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                
+                <div class="stat-card in-transit">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">In Transit</div>
+                </div>
+                
+                <div class="stat-card delivered">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-number">187</div>
+                    <div class="stat-label">Delivered</div>
+                </div>
+            </div>
+            
+            <!-- Filters and Search -->
+            <div class="filters-card">
+                <div class="filters-row">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search orders...">
+                    </div>
+                    
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    
+                    <select id="dateFilter" class="filter-select">
+                        <option value="">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                    
+                    <button onclick="refreshDeliveries()" class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Deliveries Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>Recent Deliveries</h3>
+                </div>
+                
+                <table class="deliveries-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveriesTable">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Dropdown -->
+    <div id="statusDropdown" class="status-dropdown">
+        <div class="status-dropdown-option" data-status="pending">
+            <i class="fas fa-clock" style="color: #e09e2f;"></i>
+            <span>Pending</span>
+        </div>
+        <div class="status-dropdown-option" data-status="in-transit">
+            <i class="fas fa-truck" style="color: #465F16;"></i>
+            <span>In Transit</span>
+        </div>
+        <div class="status-dropdown-option" data-status="delivered">
+            <i class="fas fa-check-circle" style="color: #2e8b57;"></i>
+            <span>Delivered</span>
+        </div>
+        <div class="status-dropdown-option" data-status="cancelled">
+            <i class="fas fa-times-circle" style="color: #dc5050;"></i>
+            <span>Cancelled</span>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details</h3>
+                <button onclick="closeModal()" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modalContent" class="modal-body">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-col">
+                    <div class="logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>GramBazaar</span>
+                    </div>
+                    <p>Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Become a Seller</a></li>
+                        <li><a href="#">Buyer Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Market Insights</a></li>
+                        <li><a href="#">Farmer Training</a></li>
+                        <li><a href="#">Download App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rural Tech Park, Hyderabad</li>
+                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                        <li><i class="fas fa-envelope"></i> support@grambazaar.com</li>
+                    </ul>
+                    <div class="language-switcher">
+                        <i class="fas fa-globe"></i>
+                        <select>
+                            <option value="en">English</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Made with ❤ by Team GramBazaar</p>
+                <p>&copy; 2023 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample delivery data
+        const deliveries = [
+            { id: 'ORD-001', customer: 'John Smith', product: 'Organic Wheat Flour (5kg)', status: 'delivered', date: '2024-01-15', amount: '₹450', address: '123 Main St, New York, NY', phone: '+1 (555) 123-4567' },
+            { id: 'ORD-002', customer: 'Sarah Johnson', product: 'Fresh Mangoes (1 dozen)', status: 'in-transit', date: '2024-01-14', amount: '₹350', address: '456 Oak Ave, Los Angeles, CA', phone: '+1 (555) 987-6543' },
+            { id: 'ORD-003', customer: 'Mike Davis', product: 'Handmade Pottery Set', status: 'pending', date: '2024-01-14', amount: '₹1200', address: '789 Pine St, Chicago, IL', phone: '+1 (555) 456-7890' },
+            { id: 'ORD-004', customer: 'Emily Wilson', product: 'Organic Brown Rice (10kg)', status: 'delivered', date: '2024-01-13', amount: '₹800', address: '321 Elm St, Houston, TX', phone: '+1 (555) 234-5678' },
+            { id: 'ORD-005', customer: 'David Brown', product: 'Fresh Vegetables Box', status: 'in-transit', date: '2024-01-13', amount: '₹600', address: '654 Maple Dr, Phoenix, AZ', phone: '+1 (555) 345-6789' },
+            { id: 'ORD-006', customer: 'Lisa Garcia', product: 'Handwoven Shawl', status: 'cancelled', date: '2024-01-12', amount: '₹950', address: '987 Cedar Ln, Philadelphia, PA', phone: '+1 (555) 567-8901' },
+            { id: 'ORD-007', customer: 'Tom Anderson', product: 'Organic Honey (1kg)', status: 'delivered', date: '2024-01-12', amount: '₹550', address: '147 Birch St, San Antonio, TX', phone: '+1 (555) 678-9012' },
+            { id: 'ORD-008', customer: 'Anna Martinez', product: 'Spices Collection Set', status: 'pending', date: '2024-01-11', amount: '₹750', address: '258 Spruce Ave, San Diego, CA', phone: '+1 (555) 789-0123' }
+        ];
+
+        let filteredDeliveries = [...deliveries];
+        let currentOrderId = null;
+
+        function renderDeliveries(deliveriesToRender = filteredDeliveries) {
+            const tableBody = document.getElementById('deliveriesTable');
+            tableBody.innerHTML = '';
+
+            deliveriesToRender.forEach(delivery => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${delivery.id}</td>
+                    <td>${delivery.customer}</td>
+                    <td>${delivery.product}</td>
+                    <td><span class="status-badge status-${delivery.status}">${delivery.status.charAt(0).toUpperCase() + delivery.status.slice(1).replace('-', ' ')}</span></td>
+                    <td>${delivery.date}</td>
+                    <td>${delivery.amount}</td>
+                    <td>
+                        <button onclick="viewOrder('${delivery.id}')" class="action-btn view-btn">View</button>
+                        <button onclick="showStatusDropdown('${delivery.id}', event)" class="action-btn update-btn">Update</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function showStatusDropdown(orderId, event) {
+            // Close any open dropdown first
+            closeStatusDropdown();
+            
+            // Set current order ID
+            currentOrderId = orderId;
+            
+            // Get the button position
+            const button = event.currentTarget;
+            const rect = button.getBoundingClientRect();
+            
+            // Position the dropdown
+            const dropdown = document.getElementById('statusDropdown');
+            dropdown.style.display = 'block';
+            
+            // Calculate position to ensure it doesn't go off-screen
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const dropdownWidth = dropdown.offsetWidth;
+            const dropdownHeight = dropdown.offsetHeight;
+            
+            let left = rect.left;
+            let top = rect.bottom + 5;
+            
+            // Adjust if dropdown would go off the right side of the screen
+            if (left + dropdownWidth > viewportWidth - 10) {
+                left = viewportWidth - dropdownWidth - 10;
+            }
+            
+            // Adjust if dropdown would go off the bottom of the screen
+            if (top + dropdownHeight > viewportHeight - 10) {
+                top = rect.top - dropdownHeight - 5;
+            }
+            
+            dropdown.style.left = `${left}px`;
+            dropdown.style.top = `${top}px`;
+            
+            // Add event listeners
+            document.addEventListener('click', handleClickOutside);
+            
+            // Prevent the click event from immediately closing the dropdown
+            event.stopPropagation();
+        }
+
+        function handleClickOutside(event) {
+            const dropdown = document.getElementById('statusDropdown');
+            if (!dropdown.contains(event.target)) {
+                closeStatusDropdown();
+            }
+        }
+
+        function closeStatusDropdown() {
+            const dropdown = document.getElementById('statusDropdown');
+            dropdown.style.display = 'none';
+            document.removeEventListener('click', handleClickOutside);
+            currentOrderId = null;
+        }
+
+        function updateStatus(status) {
+            if (!currentOrderId) return;
+            
+            const order = deliveries.find(d => d.id === currentOrderId);
+            if (!order) return;
+            
+            order.status = status;
+            renderDeliveries();
+            
+            // Show success message
+            showNotification(`Order ${currentOrderId} status updated to ${status.replace('-', ' ')}`);
+            
+            // Close the dropdown
+            closeStatusDropdown();
+        }
+
+        function viewOrder(orderId) {
+            const order = deliveries.find(d => d.id === orderId);
+            if (!order) return;
+
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="order-info-grid">
+                    <div class="info-section">
+                        <h4>Order Information</h4>
+                        <div class="info-item"><strong>Order ID:</strong> ${order.id}</div>
+                        <div class="info-item"><strong>Product:</strong> ${order.product}</div>
+                        <div class="info-item"><strong>Amount:</strong> ${order.amount}</div>
+                        <div class="info-item"><strong>Date:</strong> ${order.date}</div>
+                        <div class="info-item"><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1).replace('-', ' ')}</span></div>
+                    </div>
+                    <div class="info-section">
+                        <h4>Customer Information</h4>
+                        <div class="info-item"><strong>Name:</strong> ${order.customer}</div>
+                        <div class="info-item"><strong>Phone:</strong> ${order.phone}</div>
+                        <div class="info-item"><strong>Address:</strong> ${order.address}</div>
+                    </div>
+                </div>
+                <div class="timeline">
+                    <h4>Tracking Timeline</h4>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <p>Order Placed</p>
+                            <span>${order.date}</span>
+                        </div>
+                    </div>
+                    ${order.status !== 'pending' ? `
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <p>Order Confirmed</p>
+                            <span>${order.date}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+                    ${order.status === 'delivered' ? `
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <p>Delivered</p>
+                            <span>${order.date}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="modal-actions">
+                    <button onclick="closeModal()" class="secondary-btn">Close</button>
+                    <button onclick="showStatusDropdown('${order.id}', event); closeModal();" class="primary-btn">Update Status</button>
+                </div>
+            `;
+
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function refreshDeliveries() {
+            // Simulate refresh with loading state
+            const refreshBtn = event.currentTarget;
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Refreshing...';
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalText;
+                showNotification('Deliveries refreshed successfully');
+            }, 1000);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function filterDeliveries() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            filteredDeliveries = deliveries.filter(delivery => {
+                const matchesSearch = delivery.customer.toLowerCase().includes(searchTerm) || 
+                                    delivery.id.toLowerCase().includes(searchTerm) ||
+                                    delivery.product.toLowerCase().includes(searchTerm);
+                
+                const matchesStatus = !statusFilter || delivery.status === statusFilter;
+                
+                // Simple date filtering (in a real app, you'd use proper date comparison)
+                const matchesDate = !dateFilter || true; // Simplified for demo
+                
+                return matchesSearch && matchesStatus && matchesDate;
+            });
+
+            renderDeliveries(filteredDeliveries);
+        }
+
+        // Initialize dropdown option event listeners
+        function initDropdownEvents() {
+            const options = document.querySelectorAll('.status-dropdown-option');
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const status = option.getAttribute('data-status');
+                    updateStatus(status);
+                });
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterDeliveries);
+        document.getElementById('statusFilter').addEventListener('change', filterDeliveries);
+        document.getElementById('dateFilter').addEventListener('change', filterDeliveries);
+
+        // Close modal when clicking outside
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize the page
+        renderDeliveries();
+        initDropdownEvents();
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
