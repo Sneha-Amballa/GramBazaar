@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - GramBazaar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-green: #465F16;
+            --light-leaf: #f1fbe8;
+            --mustard: #f5b041;
+            --dark-mustard: #e09e2f;
+            --dark-gray: #333333;
+            --light-gray: #888888;
+            --deep-brown: #6e4c1e;
+            --soft-blue: #6ca0dc;
+            --white: #ffffff;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark-gray);
+            background: linear-gradient(to bottom, #ffffff 0%, var(--light-leaf) 100%);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--deep-green);
+            margin-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--mustard);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* Navigation Bar */
+        #navbar {
+            background-color: var(--deep-green);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        #navbar.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        #navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-leaf);
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--mustard);
+            transition: var(--transition);
+        }
+        
+        .logo:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light-leaf);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--mustard);
+        }
+        
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-leaf);
+            position: relative;
+        }
+        
+        .language-switcher i {
+            font-size: 1.1rem;
+        }
+        
+        .language-switcher select {
+            background: transparent;
+            border: 1px solid rgba(1, 14, 2, 0.3);
+            border-radius: 6px;
+            color: var(--light-leaf);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            padding-right: 30px;
+        }
+        
+        .language-switcher select:hover {
+            border-color: var(--mustard);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn.login {
+            background: transparent;
+            color: var(--light-leaf);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn.signup {
+            background-color: var(--mustard);
+            color: var(--deep-green);
+        }
+        
+        .btn.login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--mustard);
+        }
+        
+        .btn.signup:hover {
+            background-color: var(--dark-mustard);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(245, 176, 65, 0.3);
+        }
+        
+        /* Contact Section */
+        #contact {
+            padding: 100px 0 60px;
+            position: relative;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-info:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: var(--mustard);
+            top: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            color: var(--deep-green);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-info h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-leaf);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-green);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h4 {
+            font-size: 1.1rem;
+            color: var(--deep-green);
+            margin-bottom: 5px;
+        }
+        
+        .contact-details p, 
+        .contact-details a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+            line-height: 1.6;
+        }
+        
+        .contact-details a:hover {
+            color: var(--mustard);
+        }
+        
+        .contact-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .contact-social a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--light-leaf);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-green);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .contact-social a:hover {
+            background: var(--mustard);
+            color: var(--white);
+            transform: translateY(-5px);
+        }
+        
+        .contact-form {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .contact-form:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: var(--mustard);
+            top: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .contact-form h3 {
+            font-size: 1.8rem;
+            color: var(--deep-green);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-form h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f9f9f9;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--mustard);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(245, 176, 65, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn.submit {
+            background-color: var(--mustard);
+            color: var(--deep-green);
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn.submit:hover {
+            background-color: var(--dark-mustard);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(245, 176, 65, 0.3);
+        }
+        
+        
+        /* FAQ Section */
+        #faq {
+            background-color: var(--white);
+            padding: 80px 0;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            background: var(--white);
+            border-left: 4px solid var(--mustard);
+        }
+        
+        .faq-question {
+            padding: 20px 25px;
+            background: var(--light-leaf);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--deep-green);
+        }
+        
+        .faq-question i {
+            transition: var(--transition);
+        }
+        
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .faq-answer p {
+            padding: 20px 0;
+            color: var(--light-gray);
+            line-height: 1.8;
+            transition: max-height 0.25s ease;
+        }
+        
+        .faq-item.open .faq-question i { transform: rotate(180deg); transition: transform 0.2s ease; }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        /* Footer */
+        #footer {
+            background-color: var(--deep-brown);
+            color: var(--light-leaf);
+            padding-top: 80px;
+            position: relative;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .footer-col h4 {
+            color: var(--mustard);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--mustard);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--mustard);
+            transform: translateX(5px);
+        }
+        
+        .footer-col .logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 25px;
+            max-width: 300px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-leaf);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--mustard);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .contact-container {
+                gap: 30px;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .contact-info, 
+            .contact-form {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+<nav id="navbar">
+    <div class="container">
+        <a href="dashboard.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span data-key="mainHeading">GramBazaar</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="dashboard.html" data-key="navHome">Home</a>
+            <a href="#" class="active" data-key="navContact">Contact</a>
+            <div class="language-switcher">
+                <i class="fas fa-globe"></i>
+                <select id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="te">తెలుగు</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="auth-buttons">
+            <a href="login.html"><button class="btn login" data-key="loginbtn">Login</button></a>
+            <a href="login.html"><button class="btn signup" data-key="signupbtn">Sign Up</button></a>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Contact Section -->
+    <section id="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2 data-key="title">Get In Touch With Us</h2>
+            <p data-key="subtitle">We're here to answer any questions you may have</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 data-key="contactInfo">Contact Information</h3>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4 data-key="locationTitle">Our Location</h4>
+                        <p data-key="locationAddress">Rural Tech Park, Hyderabad, Telangana 500032</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4 data-key="phoneTitle">Phone Number</h4>
+                        <p>+91 9876543210</p>
+                        <p>+91 0123456789</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4 data-key="emailTitle">Email Address</h4>
+                        <a href="mailto:support@grambazaar.com">support@grambazaar.com</a>
+                        <a href="mailto:sales@grambazaar.com">sales@grambazaar.com</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4 data-key="hoursTitle">Working Hours</h4>
+                        <p data-key="hoursWeek">Monday - Saturday: 9AM - 7PM</p>
+                        <p data-key="hoursSun">Sunday: 10AM - 2PM</p>
+                    </div>
+                </div>
+                
+                <div class="contact-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3 data-key="formTitle">Send Us a Message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" data-key="nameLabel">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your name" data-key-placeholder="namePlaceholder" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" data-key="emailLabel">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" data-key-placeholder="emailPlaceholder" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" data-key="phoneLabel">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" data-key-placeholder="phonePlaceholder">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" data-key="subjectLabel">Subject</label>
+                        <input type="text" id="subject" class="form-control" placeholder="What is this regarding?" data-key-placeholder="subjectPlaceholder" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" data-key="messageLabel">Your Message</label>
+                        <textarea id="message" class="form-control" placeholder="How can we help you?" data-key-placeholder="messagePlaceholder" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn submit" data-key="sendButton">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+    <!-- FAQ Section -->
+    <section id="faq">
+    <div class="container">
+        <div class="section-title">
+            <h2 data-key="faqTitle">Frequently Asked Questions</h2>
+            <p data-key="faqSubtitle">Find answers to common questions about GramBazaar</p>
+        </div>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" data-key="faqQ1">
+                    How can I become a seller on GramBazaar?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-key="faqA1">To become a seller, simply sign up for an account, complete your seller profile, and submit your products for verification. Our team will review your application within 24-48 hours.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" data-key="faqQ2">
+                    What types of products can I sell on GramBazaar?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-key="faqA2">We welcome all agricultural products, handicrafts, handmade items, and traditional rural products. All products must be authentic and locally produced.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" data-key="faqQ3">
+                    How does payment work for sellers?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-key="faqA3">Sellers receive payments directly to their bank account via UPI within 24 hours of order delivery. We don't hold payments, ensuring you get your money quickly.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" data-key="faqQ4">
+                    What languages does GramBazaar support?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-key="faqA4">Currently, we support English, Hindi, and Telugu. We're working to add more regional languages in the near future to serve more communities.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" data-key="faqQ5">
+                    How can I get help if I'm facing technical issues?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-key="faqA5">Our support team is available via phone, email, and chat during business hours. You can also visit our help center for tutorials and troubleshooting guides.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+    <!-- Footer -->
+    <footer id="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-col">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span data-key="footerLogo">GramBazaar</span>
+                </div>
+                <p data-key="footerDescription">Empowering rural producers and artisans with direct market access through technology and local language support.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerQuickLinks">Quick Links</h4>
+                <ul>
+                    <li><a href="#" data-key="footerAboutUs">About Us</a></li>
+                    <li><a href="#" data-key="footerHowItWorks">How It Works</a></li>
+                    <li><a href="#" data-key="footerBecomeSeller">Become a Seller</a></li>
+                    <li><a href="#" data-key="footerBuyerGuide">Buyer Guide</a></li>
+                    <li><a href="#" data-key="footerFAQs">FAQs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerResources">Resources</h4>
+                <ul>
+                    <li><a href="#" data-key="footerBlog">Blog</a></li>
+                    <li><a href="#" data-key="footerSuccessStories">Success Stories</a></li>
+                    <li><a href="#" data-key="footerMarketInsights">Market Insights</a></li>
+                    <li><a href="#" data-key="footerFarmerTraining">Farmer Training</a></li>
+                    <li><a href="#" data-key="footerDownloadApp">Download App</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 data-key="footerContactUs">Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span data-key="footerAddress">Rural Tech Park, Hyderabad</span></li>
+                    <li><i class="fas fa-phone"></i> <span data-key="footerPhone">+91 9876543210</span></li>
+                    <li><i class="fas fa-envelope"></i> <span data-key="footerEmail">support@grambazaar.com</span></li>
+                </ul>
+                <div class="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <select>
+                        <option value="en" data-key="langEnglish">English</option>
+                        <option value="hi" data-key="langHindi">हिन्दी</option>
+                        <option value="te" data-key="langTelugu">తెలుగు</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p data-key="footerMadeWith">Made with ❤️ by Team GramBazaar</p>
+            <p data-key="footerRights">&copy; 2025 GramBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="dashboard_translations.js"></script>
+    <script src="login_translations.js"></script>
+    <script src="add_product_translations.js"></script>
+    <script src="Contact_translations.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+  const faq = document.querySelector("#faq");
+  if (!faq) return;
+
+  const items = Array.from(faq.querySelectorAll(".faq-item"));
+  const questions = items.map((item, i) => {
+    const q = item.querySelector(".faq-question");
+    const a = item.querySelector(".faq-answer");
+
+    // Ensure unique IDs
+    const qId = q.id || `faq-q-${i+1}`;
+    const aId = a.id || `faq-a-${i+1}`;
+    q.id = qId;
+    a.id = aId;
+
+    // A11y roles & states
+    q.setAttribute("role", "button");
+    q.setAttribute("tabindex", "0");
+    q.setAttribute("aria-controls", aId);
+    q.setAttribute("aria-expanded", "false");
+    a.setAttribute("role", "region");
+    a.setAttribute("aria-labelledby", qId);
+    a.style.overflow = "hidden";
+    a.style.maxHeight = "0";
+
+    // Click & keyboard
+    q.addEventListener("click", () => toggle(item));
+    q.addEventListener("keydown", (e) => {
+      // Toggle on Enter/Space
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle(item);
+      }
+      // Arrow/Home/End navigation between questions
+      const idx = questions.indexOf(q);
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        questions[(idx + 1) % questions.length].focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        questions[(idx - 1 + questions.length) % questions.length].focus();
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        questions[0].focus();
+      } else if (e.key === "End") {
+        e.preventDefault();
+        questions[questions.length - 1].focus();
+      }
+    });
+
+    return q;
+  });
+
+  // Optional: close others when opening one
+  const closeOthers = true;
+
+  function toggle(item) {
+    const q = item.querySelector(".faq-question");
+    const a = item.querySelector(".faq-answer");
+    const isOpen = q.getAttribute("aria-expanded") === "true";
+
+    if (closeOthers) {
+      items.forEach(it => {
+        if (it !== item) close(it);
+      });
+    }
+
+    isOpen ? close(item) : open(item);
+
+    // Smooth height animation (requires transition in CSS)
+    // Example CSS (add to your stylesheet):
+    // .faq-answer { transition: max-height 0.25s ease; }
+  }
+
+  function open(item) {
+    const q = item.querySelector(".faq-question");
+    const a = item.querySelector(".faq-answer");
+    q.setAttribute("aria-expanded", "true");
+    item.classList.add("open");
+    a.style.maxHeight = a.scrollHeight + "px";
+  }
+
+  function close(item) {
+    const q = item.querySelector(".faq-question");
+    const a = item.querySelector(".faq-answer");
+    q.setAttribute("aria-expanded", "false");
+    item.classList.remove("open");
+    a.style.maxHeight = "0";
+  }
+
+  // Optional: open the first item by default
+  // open(items[0]);
+});
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        const combinedTranslations = {
+            en: { ...dashboardTranslations.en, ...loginTranslations.en , ...AddProductTranslations.en , ...ContactTranslations.en},
+            hi: { ...dashboardTranslations.hi, ...loginTranslations.hi , ...AddProductTranslations.hi , ...ContactTranslations.hi},
+            te: { ...dashboardTranslations.te, ...loginTranslations.te , ...AddProductTranslations.te , ...ContactTranslations.te}
+        };
+        document.getElementById("languageSelect").addEventListener("change", function() {
+            const lang = this.value;
+            localStorage.setItem("lang", lang);
+            document.querySelectorAll("[data-key]").forEach(el => {
+                const key = el.getAttribute("data-key");
+                if (combinedTranslations[lang] && combinedTranslations[lang][key]) {
+                    el.innerHTML = combinedTranslations[lang][key];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
